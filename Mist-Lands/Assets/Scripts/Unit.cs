@@ -7,9 +7,12 @@ public class Unit : MonoBehaviour
     [SerializeField] private Clicker _clicker;   
     [SerializeField] private State _state;
     [SerializeField] private Animator _animator;
+    [SerializeField] private float _maximumMovementDistance = 10;
     private NavMeshObstacle _obstacle;
     private NavMeshAgent _agent;
     private Outline _outline;
+    private float _currenMovementRange;
+    private Vector3 _lastPosition;
     public State State
     { 
         get => _state; 
@@ -35,11 +38,33 @@ public class Unit : MonoBehaviour
     {
         get => _animator;
     }
+    public float CurrentMovementRange
+    {
+        get => _currenMovementRange;
+    }
+    public Vector3 LastPosition
+    {
+        get => _lastPosition;
+        set => _lastPosition = value;
+    }
+
+    public void ChangeCurrentRange(float offset)
+    {
+        _currenMovementRange += offset;
+        if (_currenMovementRange < 0)
+        {
+            _currenMovementRange = 0;
+        }
+    }
+
+    public void NewTurn()
+    {
+        _currenMovementRange = _maximumMovementDistance;
+    }
 
     private void Start()
     {
         Initialize();
-        _state.EnterState(this);
     }
 
     private void Update()
@@ -52,5 +77,7 @@ public class Unit : MonoBehaviour
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
         _agent = GetComponent<NavMeshAgent>();
+        _currenMovementRange = _maximumMovementDistance;
+        _state.EnterState(this);
     }
 }
