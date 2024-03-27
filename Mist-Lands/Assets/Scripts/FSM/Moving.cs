@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
-public class Moving : State, IUnitHandler
+public class Moving : UnitState, IUnitHandler
 {
     public bool HasNewUnit { get; set; }
 
@@ -42,8 +42,7 @@ public class Moving : State, IUnitHandler
     }
 
     public override void ExitState(Unit unit)
-    {
-        unit.Agent.ResetPath();
+    {        
         unit.Agent.enabled = false;
         unit.Clicker.OnUnitChanged -= HandleNewUnit;
         if (unit.Animator == null)
@@ -89,7 +88,6 @@ public class Moving : State, IUnitHandler
         float offset = Vector3.Distance(unit.transform.position, unit.LastPosition);
         unit.LastPosition = unit.transform.position;
         unit.ChangeCurrentRange(-offset);
-        Debug.Log(unit.CurrentMovementRange);
     }
 
     private float CalculatePathLength(NavMeshPath path)

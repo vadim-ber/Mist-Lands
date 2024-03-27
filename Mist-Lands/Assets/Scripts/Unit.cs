@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
-public class Unit : MonoBehaviour
+public class Unit : FSM
 {
     [SerializeField] private Clicker _clicker;   
-    [SerializeField] private State _state;
+    [SerializeField] private UnitState _state;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _maximumMovementDistance = 10;
     private NavMeshObstacle _obstacle;
@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour
     private Outline _outline;
     private float _currenMovementRange;
     private Vector3 _lastPosition;
-    public State State
+    public UnitState State
     { 
         get => _state; 
         set => _state = value; 

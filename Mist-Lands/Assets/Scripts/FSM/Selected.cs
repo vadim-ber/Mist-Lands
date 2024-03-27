@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Selected", menuName = "ScriptableObjects/FSM/Create Selected state")]
-public class Selected : State, IUnitHandler, INewVectorHandler
+public class Selected : UnitState, IUnitHandler, INewVectorHandler
 {    
     public bool HasNewUnit { get; set; }
     public bool HasNewVector { get; set; }

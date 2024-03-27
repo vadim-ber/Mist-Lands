@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NotSelected", menuName = "ScriptableObjects/FSM/Create NOT Selected state")]
-public class NotSelected : State, IUnitHandler
+public class NotSelected :UnitState, IUnitHandler
 {
     public bool HasNewUnit { get; set; }
 
