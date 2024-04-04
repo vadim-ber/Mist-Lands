@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Team : FSM
 {
+    [SerializeField] private bool _aITeam;
     [SerializeField] private string _teamName;
     [SerializeField] private TeamState _state;
     [SerializeField] private List<Unit> _allUnits;
@@ -25,6 +26,10 @@ public class Team : FSM
     {
         get => _activeUnits;
     }
+    public bool AITeam
+    {
+        get => _aITeam;  
+    }
 
     public void StartNewTurn()
     {
@@ -36,11 +41,21 @@ public class Team : FSM
 
     private void Start()
     {
-        Initialize();
+        Initialize();       
+    }
+
+    private void Update()
+    {
+        State.UpdateState(this);
     }
 
     private void Initialize()
     {
         _activeUnits = new(_allUnits);
+        foreach(Unit unit in _allUnits)
+        {
+            unit.SetTeam(this);
+        }
+        State.EnterState(this);
     }
 }

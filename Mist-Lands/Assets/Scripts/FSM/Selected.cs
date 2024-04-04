@@ -8,6 +8,10 @@ public class Selected : UnitState, IUnitHandler, INewVectorHandler
 
     public override void CheckSwitchState(Unit unit)
     {        
+        if(unit.Team.State is TeamNotSelected)
+        {
+            SwitchState(Transitions[0], unit);          
+        }
         if (HasNewVector)
         {
             HasNewVector = false;

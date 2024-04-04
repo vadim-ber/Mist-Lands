@@ -4,14 +4,23 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
 public class Unit : FSM
 {
+    //ScriptableObject InputMode - player/AI - children of one base class
+    [SerializeField] private float _attackValue = 15f;
+    [SerializeField] private float _defenceValue = 15f;
+    [SerializeField] private float _height = 2f;
     [SerializeField] private Clicker _clicker;   
     [SerializeField] private UnitState _state;
+    [SerializeField] private HeightModifier _heightModifier;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _maximumMovementDistance = 10;
+    private Team _team;
     private NavMeshObstacle _obstacle;
     private NavMeshAgent _agent;
     private Outline _outline;
-    private float _currenMovementRange;
+    private float _currentMovementDistance;
+    private float _currrentHeightModifer;
+    private float _currentAttackValue;
+    private float _currentDefenceValue;
     private Vector3 _lastPosition;
     public UnitState State
     { 
@@ -40,7 +49,7 @@ public class Unit : FSM
     }
     public float CurrentMovementRange
     {
-        get => _currenMovementRange;
+        get => _currentMovementDistance;
     }
     public Vector3 LastPosition
     {
@@ -48,18 +57,28 @@ public class Unit : FSM
         set => _lastPosition = value;
     }
 
+    public Team Team
+    {
+        get => _team;
+    }
+
     public void ChangeCurrentRange(float offset)
     {
-        _currenMovementRange += offset;
-        if (_currenMovementRange < 0)
+        _currentMovementDistance += offset;
+        if (_currentMovementDistance < 0)
         {
-            _currenMovementRange = 0;
+            _currentMovementDistance = 0;
         }
+    }
+
+    public void SetTeam(Team team)
+    {
+        _team = team;
     }
 
     public void NewTurn()
     {
-        _currenMovementRange = _maximumMovementDistance;
+        _currentMovementDistance = _maximumMovementDistance;
     }
 
     private void Start()
@@ -70,6 +89,7 @@ public class Unit : FSM
     private void Update()
     {
         _state.UpdateState(this);
+        ApplyHeightModifier();    
     }
 
     private void Initialize()
@@ -77,7 +97,14 @@ public class Unit : FSM
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
         _agent = GetComponent<NavMeshAgent>();
-        _currenMovementRange = _maximumMovementDistance;
+        _currentMovementDistance = _maximumMovementDistance;
         _state.EnterState(this);
+    }
+
+    private void ApplyHeightModifier()
+    {
+        _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
+        _currentAttackValue = _attackValue * _currrentHeightModifer;
+        _currentDefenceValue = _defenceValue * _currrentHeightModifer;
     }
 }

@@ -7,7 +7,15 @@ public class NotSelected :UnitState, IUnitHandler
 
     public override void CheckSwitchState(Unit unit)
     {
-        if(HasNewUnit && unit.Clicker.SelectedUnit == unit)
+        if(unit.Team.State is not TeamSelected)
+        {
+            return;
+        }
+        if(unit.Team.AITeam)
+        {
+            SwitchState(Transitions[1], unit);
+        }
+        if(!unit.Team.AITeam && HasNewUnit && unit.Clicker.SelectedUnit == unit)
         {
             HasNewUnit = false;
             SwitchState(Transitions[0], unit);
