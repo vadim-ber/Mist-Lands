@@ -9,18 +9,23 @@ public class Turner : MonoBehaviour
     private Queue<Team> _queue;
     private int _turnCount = 1;
     private int _teamsWasMoved = 0;
+    private Team _currentTeam;
+
+    public Team CurrentTeam
+    {
+        get => _currentTeam;
+    }
 
     public void TurnEnd()
     {
-        if (_teams.Length == 0)
-        {
+        if (_teams.Length < 1)
+        {            
             return;
         }
-
-        foreach (var team in _teams)
-        {
-            team.StartNewTurn();
-        }
+        _currentTeam.EndCurrentTurn();
+        _queue.Enqueue(_currentTeam);
+        _currentTeam = _queue.Dequeue();
+        _currentTeam.StartNewTurn();
 
         _teamsWasMoved++;
 
@@ -38,12 +43,20 @@ public class Turner : MonoBehaviour
     }
 
     private void Initialize()
-    {
+    {       
+        if (_teams.Length < 1)
+        {
+            Debug.LogWarning("List of Teams is empty!");
+            return;
+        }
         _text.text = _turnCount.ToString();
         foreach (var team in _teams)
-        {
-            team.State = Resources.Load<TeamNotSelected>("ScriptableObjects/FSM");
+        {           
+            team.EndCurrentTurn();
+            team.SetTurner(this);   
         }
         _queue = new Queue<Team>(_teams);
+        _currentTeam = _queue.Dequeue();
+        _currentTeam.StartNewTurn();        
     }
 }

@@ -5,8 +5,10 @@ public class Team : FSM
 {
     [SerializeField] private bool _aITeam;
     [SerializeField] private string _teamName;
+    [SerializeField] private Selector _selector;
     [SerializeField] private TeamState _state;
     [SerializeField] private List<Unit> _allUnits;
+    private Turner _turner;
     private List<Unit> _activeUnits;
 
     public string TeamName
@@ -30,6 +32,14 @@ public class Team : FSM
     {
         get => _aITeam;  
     }
+    public Turner Turner
+    {
+        get => _turner;
+    }
+    public Selector Selector
+    {
+        get => _selector;
+    }
 
     public void StartNewTurn()
     {
@@ -39,7 +49,20 @@ public class Team : FSM
         }
     }
 
-    private void Start()
+    public void EndCurrentTurn()
+    {
+        foreach (var unit in ActiveUnits)
+        {
+            unit.EndTurn();
+        }
+    }
+
+    public void SetTurner(Turner turner)
+    {
+        _turner = turner;
+    }
+
+    private void Awake()
     {
         Initialize();       
     }
@@ -54,7 +77,7 @@ public class Team : FSM
         _activeUnits = new(_allUnits);
         foreach(Unit unit in _allUnits)
         {
-            unit.SetTeam(this);
+            unit.Initialize(this);
         }
         State.EnterState(this);
     }

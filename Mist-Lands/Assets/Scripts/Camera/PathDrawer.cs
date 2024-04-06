@@ -22,7 +22,7 @@ public class PathDrawer : ScriptableObject
         _spriteRenderer = _waypoint.GetComponentInChildren<SpriteRenderer>();
         _line = Instantiate(_linePrefab, _clicker.transform);
         _lineRenderer = _line.GetComponent<LineRenderer>();
-        _clicker.OnUnitChanged += UnitHandler;
+        _clicker.OnNewUnitSelected += UnitHandler;
         _lineRenderer.positionCount = 0;
     }
 

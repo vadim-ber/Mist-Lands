@@ -5,7 +5,10 @@ public class TeamSelected : TeamState
 {
     public override void CheckSwitchState(Team team)
     {
-        
+        if(team.Turner.CurrentTeam != team)
+        {
+            SwitchState(Transitions[0], team);
+        }
     }
 
     public override void EnterState(Team team)
@@ -20,6 +23,6 @@ public class TeamSelected : TeamState
 
     public override void UpdateState(Team team)
     {
-       
+       CheckSwitchState(team);
     }
 }

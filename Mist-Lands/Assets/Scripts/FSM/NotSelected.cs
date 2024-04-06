@@ -15,7 +15,7 @@ public class NotSelected :UnitState, IUnitHandler
         {
             SwitchState(Transitions[1], unit);
         }
-        if(!unit.Team.AITeam && HasNewUnit && unit.Clicker.SelectedUnit == unit)
+        if(!unit.Team.AITeam && HasNewUnit && unit.Selector.SelectedUnit == unit)
         {
             HasNewUnit = false;
             SwitchState(Transitions[0], unit);
@@ -26,7 +26,7 @@ public class NotSelected :UnitState, IUnitHandler
     {
         unit.Outline.enabled = false;
         unit.Agent.enabled = false;
-        unit.Clicker.OnUnitChanged += HandleNewUnit;
+        unit.Selector.OnNewUnitSelected += HandleNewUnit;
         unit.Obstacle.enabled = true;
         if (unit.Animator == null)
         {
@@ -37,7 +37,7 @@ public class NotSelected :UnitState, IUnitHandler
 
     public override void ExitState(Unit unit)
     {
-        unit.Clicker.OnUnitChanged -= HandleNewUnit;
+        unit.Selector.OnNewUnitSelected -= HandleNewUnit;
         unit.Obstacle.enabled = false;
         if (unit.Animator == null)
         {

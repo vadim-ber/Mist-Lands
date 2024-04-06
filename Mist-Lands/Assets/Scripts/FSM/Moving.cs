@@ -32,7 +32,7 @@ public class Moving : UnitState, IUnitHandler
     public override void EnterState(Unit unit)
     {
         unit.Agent.enabled = true;
-        unit.Clicker.OnUnitChanged += HandleNewUnit;
+        unit.Selector.OnNewUnitSelected += HandleNewUnit;
         unit.LastPosition = unit.transform.position;
         if (unit.Animator == null)
         {
@@ -44,7 +44,7 @@ public class Moving : UnitState, IUnitHandler
     public override void ExitState(Unit unit)
     {        
         unit.Agent.enabled = false;
-        unit.Clicker.OnUnitChanged -= HandleNewUnit;
+        unit.Selector.OnNewUnitSelected -= HandleNewUnit;
         if (unit.Animator == null)
         {
             return;
@@ -60,7 +60,7 @@ public class Moving : UnitState, IUnitHandler
     public override void UpdateState(Unit unit)
     {
         unit.Animator.SetFloat("AgentVelocity", unit.Agent.velocity.magnitude/unit.Agent.speed);
-        Move(unit, unit.Clicker.ClickedPosition);
+        Move(unit, unit.Selector.SelectedPosition);
         UpdateMovementDistance(unit);
         CheckSwitchState(unit);          
     }

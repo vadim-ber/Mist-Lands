@@ -27,8 +27,8 @@ public class Selected : UnitState, IUnitHandler, INewVectorHandler
     public override void EnterState(Unit unit)
     {
         unit.Outline.enabled = true;
-        unit.Clicker.OnNewClickPosition += HandleNewVector;
-        unit.Clicker.OnUnitChanged += HandleNewUnit;
+        unit.Selector.OnNewPositionSelected += HandleNewVector;
+        unit.Selector.OnNewUnitSelected += HandleNewUnit;
         if (unit.Animator == null)
         {
             return;
@@ -38,8 +38,8 @@ public class Selected : UnitState, IUnitHandler, INewVectorHandler
 
     public override void ExitState(Unit unit)
     {
-        unit.Clicker.OnNewClickPosition -= HandleNewVector;
-        unit.Clicker.OnUnitChanged -= HandleNewUnit;
+        unit.Selector.OnNewPositionSelected -= HandleNewVector;
+        unit.Selector.OnNewUnitSelected -= HandleNewUnit;
         if (unit.Animator == null)
         {
             return;

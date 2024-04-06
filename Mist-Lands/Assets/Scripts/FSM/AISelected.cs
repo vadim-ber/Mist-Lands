@@ -9,6 +9,10 @@ public class AISelected : UnitState
         {
             SwitchState(Transitions[0], unit);
         }
+        if(!unit.Team.AITeam)
+        {
+            SwitchState(Transitions[0], unit);
+        }
     }
 
     public override void EnterState(Unit unit)
