@@ -2,22 +2,23 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
+[CreateAssetMenu(fileName = "Clicker", menuName = "ScriptableObjects/create clicker")]
 public class Clicker : Selector
 {
     [SerializeField] private PathDrawer _pathDrawer;
-    private Camera _camera;    
+    private Camera _camera;
 
-    private void Start()
+    public override void Initialize(Transform transform)
     {
         _camera = Camera.main;
-        _pathDrawer.Initialize(this);
+        _pathDrawer.Initialize(this, transform);
     }
 
-    private void Update()
+    public override void UpdateSelector(Transform transform)
     {
         HandleLeftClick();
         HandleRightClick();
-        _pathDrawer.Refresh();
+        _pathDrawer.Refresh(transform);
     }
 
     private void HandleLeftClick()

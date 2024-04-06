@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Team : FSM
-{
-    [SerializeField] private bool _aITeam;
+{    
     [SerializeField] private string _teamName;
     [SerializeField] private Selector _selector;
     [SerializeField] private TeamState _state;
@@ -28,10 +27,6 @@ public class Team : FSM
     {
         get => _activeUnits;
     }
-    public bool AITeam
-    {
-        get => _aITeam;  
-    }
     public Turner Turner
     {
         get => _turner;
@@ -39,6 +34,11 @@ public class Team : FSM
     public Selector Selector
     {
         get => _selector;
+        set
+        {
+            _selector = value;
+            SwitchSelector();
+        }
     }
 
     public void StartNewTurn()
@@ -70,15 +70,22 @@ public class Team : FSM
     private void Update()
     {
         State.UpdateState(this);
+        _selector.UpdateSelector(transform);
     }
 
     private void Initialize()
     {
         _activeUnits = new(_allUnits);
-        foreach(Unit unit in _allUnits)
+        SwitchSelector();
+        State.EnterState(this);
+    }
+
+    private void SwitchSelector()
+    {
+        _selector.Initialize(transform);
+        foreach (Unit unit in _allUnits)
         {
             unit.Initialize(this);
         }
-        State.EnterState(this);
     }
 }

@@ -7,33 +7,33 @@ public class PathDrawer : ScriptableObject
 {
     [SerializeField] private GameObject _linePrefab;
     [SerializeField] private GameObject _waypointPrefab;
-    private Clicker _clicker;
+    private Selector _selector;
     private GameObject _waypoint;
     private GameObject _line;
     private SpriteRenderer _spriteRenderer;
     private LineRenderer _lineRenderer;
     private List<Vector3> _wayPoints;
 
-    public void Initialize(Clicker clicker)
+    public void Initialize(Selector selector, Transform transform)
     {
-        _clicker = clicker;
-        _waypoint = Instantiate(_waypointPrefab, _clicker.transform);
+        _selector = selector;
+        _waypoint = Instantiate(_waypointPrefab, transform);
         _waypoint.SetActive(false);
         _spriteRenderer = _waypoint.GetComponentInChildren<SpriteRenderer>();
-        _line = Instantiate(_linePrefab, _clicker.transform);
+        _line = Instantiate(_linePrefab, transform);
         _lineRenderer = _line.GetComponent<LineRenderer>();
-        _clicker.OnNewUnitSelected += UnitHandler;
+        _selector.OnNewUnitSelected += UnitHandler;
         _lineRenderer.positionCount = 0;
     }
 
-    public void Refresh()
-    {       
-        DisplayLinePath();
+    public void Refresh(Transform transform)
+    {
+        DisplayLinePath(transform);
     }
 
-    private void DisplayLinePath()
+    private void DisplayLinePath(Transform transform)
     {
-        if (_clicker.SelectedUnit == null || _clicker.SelectedUnit.Agent.path.corners.Length < 2)
+        if (_selector.SelectedUnit == null || _selector.SelectedUnit.Agent.path.corners.Length < 2)
         {
             _lineRenderer.positionCount = 0;
             _waypoint.SetActive(false);
@@ -41,10 +41,10 @@ public class PathDrawer : ScriptableObject
         }
 
         _wayPoints = new List<Vector3>();
-        Vector3 lastCorner = _clicker.SelectedUnit.Agent.path.corners[0];
+        Vector3 lastCorner = _selector.SelectedUnit.Agent.path.corners[0];
         _wayPoints.Add(lastCorner);
 
-        foreach (var currentCorner in _clicker.SelectedUnit.Agent.path.corners.Skip(1))
+        foreach (var currentCorner in _selector.SelectedUnit.Agent.path.corners.Skip(1))
         {
             if (Physics.Linecast(lastCorner, currentCorner, out var hit))
             {
@@ -67,7 +67,7 @@ public class PathDrawer : ScriptableObject
     private void UnitHandler(Unit newUnit)
     {
         _lineRenderer.positionCount = 0;
-        if (_clicker.SelectedUnit == null)
+        if (_selector.SelectedUnit == null)
         {
             return;
         }

@@ -9,7 +9,7 @@ public class AISelected : UnitState
         {
             SwitchState(Transitions[0], unit);
         }
-        if(!unit.Team.AITeam)
+        if(unit.Team.Selector is not AISelector)
         {
             SwitchState(Transitions[0], unit);
         }
