@@ -11,11 +11,7 @@ public class NotSelected :UnitState, IUnitHandler
         {
             return;
         }
-        if(unit.Team.Selector is AISelector)
-        {
-            SwitchState(Transitions[1], unit);
-        }
-        if(unit.Team.Selector is not AISelector && HasNewUnit && unit.Selector.SelectedUnit == unit)
+        if(HasNewUnit && unit.Selector.SelectedUnit == unit)
         {
             HasNewUnit = false;
             SwitchState(Transitions[0], unit);

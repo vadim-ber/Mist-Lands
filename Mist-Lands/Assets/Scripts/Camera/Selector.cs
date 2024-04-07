@@ -4,12 +4,17 @@ using UnityEngine;
 public abstract class Selector : ScriptableObject
 {
     protected Unit _selectedUnit;
+    protected Team _team;
     protected Vector3 _selectedPosition;
     public event Action<Unit> OnNewUnitSelected;
     public event Action<Vector3> OnNewPositionSelected;
 
-    public abstract void Initialize(Transform transform);
+    public virtual void Initialize(Team team)
+    {
+        _team = team;
+    }
     public abstract void UpdateSelector(Transform transform);
+    
     public Unit SelectedUnit
     {
         get => _selectedUnit;

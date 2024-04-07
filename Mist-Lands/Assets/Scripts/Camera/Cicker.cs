@@ -8,17 +8,22 @@ public class Clicker : Selector
     [SerializeField] private PathDrawer _pathDrawer;
     private Camera _camera;
 
-    public override void Initialize(Transform transform)
+    public override void Initialize(Team team)
     {
+        base.Initialize(team);
         _camera = Camera.main;
-        _pathDrawer.Initialize(this, transform);
+        _pathDrawer.Initialize(this, _team.transform);
     }
 
     public override void UpdateSelector(Transform transform)
     {
-        HandleLeftClick();
-        HandleRightClick();
         _pathDrawer.Refresh(transform);
+        if (_team.State is not TeamSelected)
+        {
+            return;
+        }
+        HandleLeftClick();
+        HandleRightClick();        
     }
 
     private void HandleLeftClick()

@@ -82,7 +82,7 @@ public class Team : FSM
 
     private void SwitchSelector()
     {
-        _selector.Initialize(transform);
+        _selector.Initialize(this);
         foreach (Unit unit in _allUnits)
         {
             unit.Initialize(this);
