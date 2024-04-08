@@ -6,7 +6,7 @@ public class NotSelected :UnitState, IUnitHandler
     public bool HasNewUnit { get; set; }
 
     public override void CheckSwitchState(Unit unit)
-    {
+    {        
         if(unit.Team.State is not TeamSelected)
         {
             return;

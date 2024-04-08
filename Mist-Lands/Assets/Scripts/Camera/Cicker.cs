@@ -2,22 +2,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "Clicker", menuName = "ScriptableObjects/create clicker")]
 public class Clicker : Selector
-{
-    [SerializeField] private PathDrawer _pathDrawer;
+{    
     private Camera _camera;
 
-    public override void Initialize(Team team)
-    {
-        base.Initialize(team);
-        _camera = Camera.main;
-        _pathDrawer.Initialize(this, _team.transform);
+    public Clicker(Team team) : base(team)
+    {        
+        _camera = Camera.main;       
     }
 
     public override void UpdateSelector(Transform transform)
-    {
-        _pathDrawer.Refresh(transform);
+    {        
         if (_team.State is not TeamSelected)
         {
             return;

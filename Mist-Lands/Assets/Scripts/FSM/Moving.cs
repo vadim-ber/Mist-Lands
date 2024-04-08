@@ -30,7 +30,7 @@ public class Moving : UnitState, IUnitHandler
     }
 
     public override void EnterState(Unit unit)
-    {
+    {        
         unit.Agent.enabled = true;
         unit.Selector.OnNewUnitSelected += HandleNewUnit;
         unit.LastPosition = unit.transform.position;

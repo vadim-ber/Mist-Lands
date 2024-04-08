@@ -14,9 +14,12 @@ public class PathDrawer : ScriptableObject
     private LineRenderer _lineRenderer;
     private List<Vector3> _wayPoints;
 
-    public void Initialize(Selector selector, Transform transform)
+    public void Initialize(Selector selector, Transform transform,
+        GameObject linePrefab, GameObject waypointPrefab)
     {
         _selector = selector;
+        _linePrefab = linePrefab;
+        _waypointPrefab = waypointPrefab;
         _waypoint = Instantiate(_waypointPrefab, transform);
         _waypoint.SetActive(false);
         _spriteRenderer = _waypoint.GetComponentInChildren<SpriteRenderer>();
@@ -26,7 +29,7 @@ public class PathDrawer : ScriptableObject
         _lineRenderer.positionCount = 0;
     }
 
-    public void Refresh(Transform transform)
+    public void UpdatePath(Transform transform)
     {
         DisplayLinePath(transform);
     }

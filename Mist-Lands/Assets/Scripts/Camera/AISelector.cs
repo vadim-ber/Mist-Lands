@@ -1,12 +1,10 @@
 using UnityEngine;
-
-[CreateAssetMenu(fileName = "AISelector", menuName = "ScriptableObjects/create AISelector")]
 public class AISelector : Selector
 {   
-    public override void Initialize(Team team)
-    {
-        base.Initialize(team);        
+    public AISelector(Team team) : base(team)
+    {             
         _selectedUnit = null;
+        _team.OnTurnEnd += ResetSelectedUnit;
     }
 
     public override void UpdateSelector(Transform transform)
@@ -22,8 +20,20 @@ public class AISelector : Selector
         if(_selectedUnit == null)
         {
             _selectedUnit = _team.ActiveUnits[0];
-            Debug.Log(_selectedUnit.ToString());
-            InvokeOnUnitSelected(_selectedUnit);
+            InvokeOnUnitSelected(_selectedUnit);            
         }
+        _selectedPosition = _team.ActiveUnits[1].transform.position;
+        InvokeOnPositionSelected(_selectedPosition);
+        Debug.Log(_selectedPosition);
+    }
+
+    public override void StopListening()
+    {
+        _team.OnTurnEnd -= ResetSelectedUnit;
+    }
+
+    private void ResetSelectedUnit()
+    {
+        _selectedUnit = null;
     }
 }

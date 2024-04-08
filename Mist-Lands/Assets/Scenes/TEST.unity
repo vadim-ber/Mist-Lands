@@ -2169,12 +2169,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b2c2b33fc9c3f4f95b48b0c869d1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mode: 0
   _teamName: 
-  _selector: {fileID: 11400000, guid: 883345b7324c73b42ad0a4e8bbd508be, type: 2}
   _state: {fileID: 11400000, guid: f6fa05205fc2d9b48977635f5a51d570, type: 2}
   _allUnits:
   - {fileID: 1826709754}
   - {fileID: 1436833076}
+  _linePrefab: {fileID: 1141490033478076659, guid: cdca8fbdbbdd4264ab8735ce31687302,
+    type: 3}
+  _waypointPrefab: {fileID: 4844314448008576446, guid: 6d0092ebbec5bea48bc680c6004c7f51,
+    type: 3}
 --- !u!1 &1435054366
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,12 +2812,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07b2c2b33fc9c3f4f95b48b0c869d1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mode: 1
   _teamName: 
-  _selector: {fileID: 11400000, guid: aa82d8714dfc7a348960ca1cef1aaf79, type: 2}
   _state: {fileID: 11400000, guid: 9a8979ca930735849a08e7333be63644, type: 2}
   _allUnits:
   - {fileID: 1729202950}
   - {fileID: 1915330721}
+  _linePrefab: {fileID: 1141490033478076659, guid: cdca8fbdbbdd4264ab8735ce31687302,
+    type: 3}
+  _waypointPrefab: {fileID: 4844314448008576446, guid: 6d0092ebbec5bea48bc680c6004c7f51,
+    type: 3}
 --- !u!1 &1804626408
 GameObject:
   m_ObjectHideFlags: 0

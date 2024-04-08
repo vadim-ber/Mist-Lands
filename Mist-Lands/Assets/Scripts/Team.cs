@@ -1,14 +1,28 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Team : FSM
 {    
+    public enum TeamMode
+    {
+        PlayerControlled,
+        AIControlled
+    };
+
+    [SerializeField] private TeamMode _mode;
     [SerializeField] private string _teamName;
     [SerializeField] private Selector _selector;
     [SerializeField] private TeamState _state;
     [SerializeField] private List<Unit> _allUnits;
+    [Header("PathDrawer Settings")]
+    [SerializeField] private GameObject _linePrefab;
+    [SerializeField] private GameObject _waypointPrefab;
     private Turner _turner;
     private List<Unit> _activeUnits;
+    private PathDrawer _pathDrawer;
+    public event Action OnTurnStart;
+    public event Action OnTurnEnd;
 
     public string TeamName
     {
@@ -33,12 +47,7 @@ public class Team : FSM
     }
     public Selector Selector
     {
-        get => _selector;
-        set
-        {
-            _selector = value;
-            SwitchSelector();
-        }
+        get => _selector;        
     }
 
     public void StartNewTurn()
@@ -47,6 +56,7 @@ public class Team : FSM
         {
             unit.NewTurn();
         }
+        OnTurnStart?.Invoke();
     }
 
     public void EndCurrentTurn()
@@ -55,6 +65,7 @@ public class Team : FSM
         {
             unit.EndTurn();
         }
+        OnTurnEnd?.Invoke();
     }
 
     public void SetTurner(Turner turner)
@@ -71,21 +82,38 @@ public class Team : FSM
     {
         State.UpdateState(this);
         _selector.UpdateSelector(transform);
+        _pathDrawer.UpdatePath(transform);
     }
 
     private void Initialize()
-    {
+    {        
         _activeUnits = new(_allUnits);
-        SwitchSelector();
-        State.EnterState(this);
-    }
-
-    private void SwitchSelector()
-    {
-        _selector.Initialize(this);
-        foreach (Unit unit in _allUnits)
+        CheckTeamMode();
+        _pathDrawer = ScriptableObject.CreateInstance<PathDrawer>();
+        _pathDrawer.Initialize(_selector, transform, _linePrefab, _waypointPrefab);
+        _state.EnterState(this);
+        foreach (var unit in _activeUnits)
         {
             unit.Initialize(this);
         }
+    }
+    
+    private void CheckTeamMode()
+    {
+        switch(_mode)
+        {
+            case TeamMode.PlayerControlled:
+                _selector = new Clicker(this);                
+                break;
+
+            case TeamMode.AIControlled: 
+                _selector = new AISelector(this);
+                break;
+        }
+    }
+
+    private void OnDisable()
+    {
+        _selector.StopListening();
     }
 }

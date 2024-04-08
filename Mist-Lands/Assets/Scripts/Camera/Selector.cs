@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class Selector : ScriptableObject
+public abstract class Selector
 {
     protected Unit _selectedUnit;
     protected Team _team;
@@ -9,11 +9,12 @@ public abstract class Selector : ScriptableObject
     public event Action<Unit> OnNewUnitSelected;
     public event Action<Vector3> OnNewPositionSelected;
 
-    public virtual void Initialize(Team team)
+    public Selector(Team team)
     {
         _team = team;
     }
     public abstract void UpdateSelector(Transform transform);
+    public virtual void StopListening() { }
     
     public Unit SelectedUnit
     {

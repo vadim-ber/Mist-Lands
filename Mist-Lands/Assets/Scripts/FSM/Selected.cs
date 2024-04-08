@@ -13,7 +13,7 @@ public class Selected : UnitState, IUnitHandler, INewVectorHandler
             SwitchState(Transitions[0], unit);          
         }
         if (HasNewVector)
-        {
+        {            
             HasNewVector = false;
             SwitchState(Transitions[1], unit);
         }
@@ -57,7 +57,7 @@ public class Selected : UnitState, IUnitHandler, INewVectorHandler
     }
 
     public void HandleNewVector(Vector3 newVector)
-    {
+    {        
         HasNewVector = true;
     }
 }
