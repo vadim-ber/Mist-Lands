@@ -49,6 +49,10 @@ public class Team : FSM
     {
         get => _selector;        
     }
+    public TeamMode Mode
+    {
+        get => _mode;
+    }
 
     public void StartNewTurn()
     {

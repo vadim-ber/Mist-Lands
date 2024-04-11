@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class Clicker : Selector
@@ -45,12 +44,8 @@ public class Clicker : Selector
         {
             return;
         }
-        int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
-        if (NavMesh.SamplePosition(hit.point, out NavMeshHit navMeshHit, SelectedUnit.Agent.height, walkableMask))
-        {
-            _selectedPosition = navMeshHit.position;
-           InvokeOnPositionSelected(_selectedPosition);
-        }
+        SelectedPositionNormalized(hit.point);
+        InvokeOnPositionSelected(_selectedPosition);
     }
 
     private void HandleRightClick()

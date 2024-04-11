@@ -7,23 +7,24 @@ public class Moving : UnitState, IUnitHandler
     public bool HasNewUnit { get; set; }
 
     public override void CheckSwitchState(Unit unit)
-    {
+    {        
         if (!unit.Agent.pathPending)
-        {
+        {           
             if (unit.Agent.remainingDistance <= unit.Agent.stoppingDistance)
-            {
-                if (!unit.Agent.hasPath || unit.Agent.velocity.sqrMagnitude == 0f)
-                {
-                    SwitchState(Transitions[0], unit);
-                }
+            {               
+                SwitchState(Transitions[0], unit);                
             }
-        }
-        if(HasNewUnit)
+        }        
+        if (unit.Team.State is TeamNotSelected)
         {
+            SwitchState(Transitions[1], unit);
+        }
+        if (HasNewUnit)
+        {            
             HasNewUnit = false;
             SwitchState(Transitions[1], unit);
         }
-        if (unit.CurrentMovementRange <= 0.01)
+        if (unit.CurrentMovementRange <= 0.05)
         {
             SwitchState(Transitions[0], unit);
         }
@@ -50,6 +51,7 @@ public class Moving : UnitState, IUnitHandler
             return;
         }
         unit.Animator.SetFloat("AgentVelocity", 0.3f);
+        unit.HasFinishedActions = true;
     }
 
     public void HandleNewUnit(Unit unit)

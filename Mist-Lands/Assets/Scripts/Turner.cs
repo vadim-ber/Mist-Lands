@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,25 +17,14 @@ public class Turner : MonoBehaviour
         get => _currentTeam;
     }
 
-    public void TurnEnd()
+    public void TurnEndButton()
     {
         if (_teams.Length < 1)
         {            
             return;
         }
         _currentTeam.EndCurrentTurn();
-        _queue.Enqueue(_currentTeam);
-        _currentTeam = _queue.Dequeue();
-        _currentTeam.StartNewTurn();
-
-        _teamsWasMoved++;
-
-        if (_teamsWasMoved >= _teams.Length)
-        {
-            _teamsWasMoved = 0;
-            _turnCount++;
-            _text.text = _turnCount.ToString();
-        }
+        TurnEnd();
     }
 
     private void Start()
@@ -53,10 +43,35 @@ public class Turner : MonoBehaviour
         foreach (var team in _teams)
         {           
             team.EndCurrentTurn();
-            team.SetTurner(this);   
+            team.SetTurner(this);
+            team.OnTurnEnd += TurnEnd;
         }
         _queue = new Queue<Team>(_teams);
         _currentTeam = _queue.Dequeue();
         _currentTeam.StartNewTurn();        
+    }
+
+    private void TurnEnd()
+    {
+        _queue.Enqueue(_currentTeam);
+        _currentTeam = _queue.Dequeue();
+        _currentTeam.StartNewTurn();
+
+        _teamsWasMoved++;
+
+        if (_teamsWasMoved >= _teams.Length)
+        {
+            _teamsWasMoved = 0;
+            _turnCount++;
+            _text.text = _turnCount.ToString();
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (var team in _teams)
+        {           
+            team.OnTurnEnd -= TurnEnd;
+        }
     }
 }

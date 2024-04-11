@@ -1653,6 +1653,11 @@ PrefabInstance:
       propertyPath: outlineColor.r
       value: 0.084590435
       objectReference: {fileID: 0}
+    - target: {fileID: 5405421053087010334, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 6330858462198720108, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: m_Name
@@ -3316,6 +3321,7 @@ GameObject:
   - component: {fileID: 2077801277}
   - component: {fileID: 2077801276}
   - component: {fileID: 2077801280}
+  - component: {fileID: 2077801281}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3422,6 +3428,18 @@ MonoBehaviour:
   - {fileID: 1378786930}
   - {fileID: 1780371080}
   _text: {fileID: 937871056}
+--- !u!114 &2077801281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077801275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b351f960e7ffd24b83ffb7648feeb5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2133174108
 GameObject:
   m_ObjectHideFlags: 0

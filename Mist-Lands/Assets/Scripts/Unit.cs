@@ -4,6 +4,20 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
 public class Unit : FSM
 {    
+    public enum CombatMode
+    {
+        Meele,
+        Ranged
+    };
+    public enum AIGrade
+    {
+        Stupid,
+        Normal,
+        Smart
+    };
+
+    [SerializeField] private CombatMode _combatMode;
+    [SerializeField] private AIGrade _aIGrade;
     [SerializeField] private float _attackValue = 15f;
     [SerializeField] private float _defenceValue = 15f;
     [SerializeField] private float _height = 2f;      
@@ -21,6 +35,7 @@ public class Unit : FSM
     private float _currentAttackValue;
     private float _currentDefenceValue;
     private Vector3 _lastPosition;
+    private bool _hasFinishedActions = false;
     public UnitState State
     { 
         get => _state; 
@@ -67,6 +82,19 @@ public class Unit : FSM
     {
         get => _currentDefenceValue;
     }
+    public AIGrade AI
+    {
+        get => _aIGrade;
+    }
+    public CombatMode Combat
+    {
+        get => _combatMode;
+    }
+    public bool HasFinishedActions
+    {
+        get => _hasFinishedActions;
+        set => _hasFinishedActions = value;
+    }
 
     public void ChangeCurrentRange(float offset)
     {
@@ -91,6 +119,7 @@ public class Unit : FSM
     public void NewTurn()
     {
         _currentMovementDistance = _maximumMovementDistance;
+        _hasFinishedActions = false;
     }
 
     public void EndTurn()
