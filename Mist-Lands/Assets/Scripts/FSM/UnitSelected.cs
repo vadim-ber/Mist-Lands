@@ -1,8 +1,8 @@
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Selected", menuName = "ScriptableObjects/FSM/Create Selected state")]
-public class Selected : UnitState, IUnitHandler, INewVectorHandler
+public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
 {    
     public bool HasNewUnit { get; set; }
     public bool HasNewVector { get; set; }

@@ -44,7 +44,7 @@ public class Clicker : Selector
         {
             return;
         }
-        SelectedPositionNormalized(hit.point);
+        _selectedPosition = GetNearestWalkablePosition(hit.point);
         InvokeOnPositionSelected(_selectedPosition);
     }
 

@@ -13,33 +13,65 @@ public class AI
     }
     public Vector3 CalcVectorToMove()
     {
-        if(_unit.Combat == Unit.CombatMode.Meele)
+        return _unit.Combat switch
         {
-            if(_unit.AI == Unit.AIGrade.Stupid)
-            {
+            Unit.CombatMode.Meele => HandleMeeleCombat(),
+            Unit.CombatMode.Ranged => HandleRangedCombat(),
+            _ => Vector3.zero,
+        };
+    }
+
+    private Vector3 HandleMeeleCombat()
+    {
+        switch (_unit.AI)
+        {
+            case Unit.AIGrade.Stupid:
+            case Unit.AIGrade.Normal:
+               // или HelpingToAlly()
+               // Retreat() возможен
+               // HoldPosition() возможен;
+            case Unit.AIGrade.Smart:
+                // TakeAdvantagePosition()
+                // или HelpingToAlly()
+                // BreakContact() возможен
+                // Retreat() возможен
+                // HoldPosition() возможен;
                 return Convergence();
-            }
-            if (_unit.AI == Unit.AIGrade.Normal)
-            {
-                return Convergence();
-            }
-            if (_unit.AI == Unit.AIGrade.Smart)
-            {
-                return Convergence();
-            }
+            default:
+                return Vector3.zero;
         }
-        if(_unit.Combat == Unit.CombatMode.Ranged)
+    }
+
+    private Vector3 HandleRangedCombat()
+    {
+        switch (_unit.AI)
         {
-            return Vector3.zero;
-        }
-        else
-        {
-            return Vector3.zero;
+            case Unit.AIGrade.Stupid:
+                // BreakContact() возможен
+                // Retreat() возможен
+                return HoldPosition();
+            case Unit.AIGrade.Normal:
+                // BreakContact() возможен
+                // SwitchCombatMode() возможен (при сближении)
+                // Retreat() возможен
+                return HoldPosition();
+            case Unit.AIGrade.Smart:
+                // BreakContact() возможен
+                // SwitchCombatMode() возможен (при сближении)
+                // TakeAdvantagePosition() возможен
+                // Retreat() возможен
+                return HoldPosition();
+            default:
+                return Vector3.zero;
         }
     }
 
     private Vector3 HoldPosition()
     {
+        // если позицию перед атакой нельзя улучшить, или это слишком
+        // рискованно
+        Debug.LogWarning($"{_unit.name} удерживает позицию");
+        _unit.HasFinishedActions = true;
         return _unit.transform.position;
     }
 
@@ -73,21 +105,40 @@ public class AI
 
     private Vector3 BreakContact()
     {
+        // если противник в контакте слишком силен, но есть шансы безнаказанно разорвать
+        // c ним контакт
         return _unit.transform.position;
     }
 
     private Vector3 TakeAdvantagePosition()
     {
+        // занять выгодную позицию (вершину) в радиусе, позволяющем атаковать противника
+        // в meele, или range
         return _unit.transform.position;
     }
 
     private Vector3 Retreat()
     {
+        // двигаться в направлении от противника в случае
+        // если он слишком силен, или получены значительные повреждения
+        // аналогично Convergence, только движение в противоположную сторону
         return _unit.transform.position;
     }
 
     private Vector3 HelpingToAlly()
     {
+        // искать в радиусе хода союзника, находящегося в контакте с противником
+        // если их несколько выбирать :
+                //самого слабого союзника, если противник с ним в контакте примерно
+                //равен по силе текущему юниту, или слабее
+
+                //самого сильного союзника, если противник с ним в контакте
+                //сильнее текущего юнита
         return _unit.transform.position;
+    }
+
+    private void SwitchCombatMode()
+    {
+        // меняем боевой режим _unit
     }
 }

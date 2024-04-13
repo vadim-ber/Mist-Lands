@@ -32,7 +32,7 @@ public class AISelector : Selector
         Vector3 targetPosition =
             new AI(_selectedUnit, UnitList.AllUnitsList).CalcVectorToMove();
 
-        SelectedPositionNormalized(targetPosition);
+        _selectedPosition = GetNearestWalkablePosition(targetPosition);
         InvokeOnPositionSelected(_selectedPosition);
     }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
-public class Moving : UnitState, IUnitHandler
+public class UnitMoving : UnitState, IUnitHandler
 {
     public bool HasNewUnit { get; set; }
 

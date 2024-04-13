@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,17 +27,21 @@ public class Unit : FSM
     [SerializeField] private HeightModifier _heightModifier;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _maximumMovementDistance = 10;
+    [SerializeField] private float _meeleAttackRadius = 1.5f;
     private Team _team;
     private Selector _selector;
     private NavMeshObstacle _obstacle;
     private NavMeshAgent _agent;
     private Outline _outline;
+    private List<Unit> _meeleAttackRadiusUnits;
+    private List<Unit> _meeleInterferenceUnits;
     private float _currentMovementDistance;
     private float _currrentHeightModifer;
     private float _currentAttackValue;
     private float _currentDefenceValue;
     private Vector3 _lastPosition;
     private bool _hasFinishedActions = false;
+    
     public UnitState State
     { 
         get => _state; 
@@ -116,6 +122,11 @@ public class Unit : FSM
         _state.EnterState(this);
     }
 
+    public void AddToInterference(Unit unit)
+    {
+        _meeleInterferenceUnits.Add(unit);
+    }
+
     public void NewTurn()
     {
         _currentMovementDistance = _maximumMovementDistance;
@@ -130,7 +141,9 @@ public class Unit : FSM
     private void Update()
     {
         _state.UpdateState(this);
-        ApplyHeightModifier();    
+        ApplyHeightModifier();
+        _meeleAttackRadiusUnits = GetUnitsInRadius(_selector.UnitList.AllUnitsList,
+            _meeleAttackRadius, false);
     }
 
     private void ApplyHeightModifier()
@@ -138,5 +151,27 @@ public class Unit : FSM
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
         _currentAttackValue = _attackValue * _currrentHeightModifer;
         _currentDefenceValue = _defenceValue * _currrentHeightModifer;
+    }
+
+    private List<Unit> GetUnitsInRadius(List<Unit> allUnitsList, float radius, 
+        bool isFriendly)
+    {
+        List<Unit> result = new();
+        foreach (Unit unit in allUnitsList)
+        {
+            if (unit == this)
+            {
+                continue;
+            }  
+            float distance = Vector3.Distance(unit.transform.position, transform.position);
+            if (distance <= radius)
+            {
+                if((Team == unit.Team) == isFriendly)
+                {
+                    result.Add(unit);                   
+                }
+            }
+        }
+        return result;
     }
 }

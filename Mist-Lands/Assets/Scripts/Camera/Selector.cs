@@ -42,13 +42,17 @@ public abstract class Selector
         OnNewPositionSelected?.Invoke(position);
     }
 
-    protected void SelectedPositionNormalized(Vector3 target)
+    protected Vector3 GetNearestWalkablePosition(Vector3 target)
     {
         int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
         if (NavMesh.SamplePosition(target, out NavMeshHit navMeshHit,
             _selectedUnit.Agent.height, walkableMask))
         {
-            _selectedPosition = navMeshHit.position;
+            return navMeshHit.position;
+        }
+        else
+        {
+            return target;
         }
     }
 }
