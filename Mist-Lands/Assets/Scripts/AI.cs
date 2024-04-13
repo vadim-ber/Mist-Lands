@@ -49,7 +49,8 @@ public class AI
             case Unit.AIGrade.Stupid:
                 // BreakContact() возможен
                 // Retreat() возможен
-                return HoldPosition();
+                //HoldPosition();
+                return BreakContact();
             case Unit.AIGrade.Normal:
                 // BreakContact() возможен
                 // SwitchCombatMode() возможен (при сближении)
@@ -105,9 +106,17 @@ public class AI
 
     private Vector3 BreakContact()
     {
-        // если противник в контакте слишком силен, но есть шансы безнаказанно разорвать
-        // c ним контакт
-        return _unit.transform.position;
+        var enemies = _unit.GetUnitsInRadius(_unit.Agent.radius, false);
+        if(enemies.Count < 1)
+        {
+            Vector3 result = FindAvailablePosition(_unit, enemies, _unit.Agent.radius * 2,
+                _unit.Agent.radius);
+            return result;
+        }
+        else
+        {
+            return _unit.transform.position;
+        }
     }
 
     private Vector3 TakeAdvantagePosition()
@@ -140,5 +149,38 @@ public class AI
     private void SwitchCombatMode()
     {
         // меняем боевой режим _unit
+    }
+
+    private Vector3 FindAvailablePosition(Unit unit, List<Unit> allUnits,
+        float searchRadius, float stepSize)
+    {
+        for (float x = unit.transform.position.x - searchRadius;
+            x <= unit.transform.position.x + searchRadius; x += stepSize)
+        {
+            for (float z = unit.transform.position.z - searchRadius;
+                z <= unit.transform.position.z + searchRadius; z += stepSize)
+            {
+                Vector3 potentialPosition = new(x, unit.transform.position.y, z);
+                bool isAvailable = true;
+
+                foreach (Unit otherUnit in allUnits)
+                {
+                    if (otherUnit == unit)
+                        continue;
+
+                    float distance = Vector3.Distance(otherUnit.transform.position,
+                        potentialPosition);
+                    if (distance <= otherUnit.Agent.radius)
+                    {
+                        isAvailable = false;
+                        break;
+                    }
+                }
+
+                if (isAvailable)
+                    return potentialPosition;
+            }
+        }
+        return Vector3.zero; 
     }
 }
