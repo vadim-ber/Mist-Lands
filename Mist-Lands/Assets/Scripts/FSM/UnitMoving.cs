@@ -72,11 +72,11 @@ public class UnitMoving : UnitState, IUnitHandler
         unit.Agent.SetDestination(newPosition);
         NavMeshPath path = new();
         unit.Agent.CalculatePath(newPosition, path);
-        float pathLength = CalculatePathLength(path);
+        float pathLength = path.CalculatePathLength();
 
         if (pathLength > unit.CurrentMovementRange)
         {
-            Vector3 clampedPosition = GetPointAtDistance(path, unit.CurrentMovementRange);
+            Vector3 clampedPosition = path.GetPointAtDistance(unit.CurrentMovementRange);
             unit.Agent.SetDestination(clampedPosition);
         }
         else
@@ -90,36 +90,5 @@ public class UnitMoving : UnitState, IUnitHandler
         float offset = Vector3.Distance(unit.transform.position, unit.LastPosition);
         unit.LastPosition = unit.transform.position;
         unit.ChangeCurrentRange(-offset);
-    }
-
-    private float CalculatePathLength(NavMeshPath path)
-    {
-        float length = 0.0f;
-
-        for (int i = 0; i < path.corners.Length - 1; i++)
-        {
-            length += Vector3.Distance(path.corners[i], path.corners[i + 1]);
-        }
-
-        return length;
-    }
-
-    private Vector3 GetPointAtDistance(NavMeshPath path, float distance)
-    {
-        for (int i = 0; i < path.corners.Length - 1; i++)
-        {
-            float segmentLength = Vector3.Distance(path.corners[i], path.corners[i + 1]);
-
-            if (segmentLength >= distance)
-            {
-                Vector3 direction = (path.corners[i + 1] - path.corners[i]).normalized;
-                return path.corners[i] + direction * distance;
-            }
-            else
-            {
-                distance -= segmentLength;
-            }
-        }
-        return path.corners[^1];
     }
 }

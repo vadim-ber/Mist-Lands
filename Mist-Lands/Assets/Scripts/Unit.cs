@@ -11,15 +11,9 @@ public class Unit : FSM
         Meele,
         Ranged
     };
-    public enum AIGrade
-    {
-        Stupid,
-        Normal,
-        Smart
-    };
 
     [SerializeField] private CombatMode _combatMode;
-    [SerializeField] private AIGrade _aIGrade;
+    [SerializeField] private float _attackRange = 1.5f;
     [SerializeField] private float _attackValue = 15f;
     [SerializeField] private float _defenceValue = 15f;
     [SerializeField] private float _height = 2f;      
@@ -77,6 +71,10 @@ public class Unit : FSM
     {
         get => _team;
     }
+    public float AttackRange
+    {
+        get => _attackRange;
+    }
     public float CurrentAttackValue
     {
         get => _currentAttackValue;
@@ -84,10 +82,6 @@ public class Unit : FSM
     public float CurrentDefenceValue
     {
         get => _currentDefenceValue;
-    }
-    public AIGrade AI
-    {
-        get => _aIGrade;
     }
     public CombatMode Combat
     {
@@ -141,26 +135,5 @@ public class Unit : FSM
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
         _currentAttackValue = _attackValue * _currrentHeightModifer;
         _currentDefenceValue = _defenceValue * _currrentHeightModifer;
-    }
-
-    public List<Unit> GetUnitsInRadius(float radius, bool isFriendly)
-    {
-        List<Unit> result = new();
-        foreach (Unit unit in _selector.UnitList.AllUnitsList)
-        {
-            if (unit == this)
-            {
-                continue;
-            }  
-            float distance = Vector3.Distance(unit.transform.position, transform.position);
-            if (distance <= radius)
-            {
-                if((Team == unit.Team) == isFriendly)
-                {
-                    result.Add(unit);                   
-                }
-            }
-        }
-        return result;
     }
 }

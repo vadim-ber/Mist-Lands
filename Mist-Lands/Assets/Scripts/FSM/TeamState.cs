@@ -17,6 +17,5 @@ public abstract class TeamState : State
         ExitState(team);
         newState.EnterState(team);
         team.State = newState;
-        Debug.Log($"{team.name} {newState.GetType()}");
     }
 }

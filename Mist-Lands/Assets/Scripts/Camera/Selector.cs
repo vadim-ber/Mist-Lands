@@ -46,7 +46,7 @@ public abstract class Selector
     {
         int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
         if (NavMesh.SamplePosition(target, out NavMeshHit navMeshHit,
-            _selectedUnit.Agent.height, walkableMask))
+            _selectedUnit.Agent.radius * 2, walkableMask))
         {
             return navMeshHit.position;
         }
@@ -54,5 +54,12 @@ public abstract class Selector
         {
             return target;
         }
+    }
+
+    protected Vector3 GetPointOnSphereSurface(Vector3 center, Vector3 target, float radius)
+    {
+        Vector3 direction = target - center;
+        direction.Normalize(); 
+        return center + direction * radius; 
     }
 }

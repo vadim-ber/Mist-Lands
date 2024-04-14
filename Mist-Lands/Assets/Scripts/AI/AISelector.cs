@@ -14,6 +14,11 @@ public class AISelector : Selector
         {
             return;
         }
+        if (_team.ActiveUnits.All(unit => unit.HasFinishedActions))
+        {
+            _team.EndCurrentTurn();
+            return;
+        }
         if (_team.ActiveUnits.Count < 1)
         {
             return;
@@ -23,16 +28,12 @@ public class AISelector : Selector
             int nextIndex = (_team.ActiveUnits.IndexOf(_selectedUnit) + 1) % _team.ActiveUnits.Count;
             _selectedUnit = _team.ActiveUnits[nextIndex];
             InvokeOnUnitSelected(_selectedUnit);
-        }
-        if (_team.ActiveUnits.All(unit => unit.HasFinishedActions))
-        {
-            _team.EndCurrentTurn();
-            return;
-        }
+        }        
         Vector3 targetPosition =
-            new AI(_selectedUnit, UnitList.AllUnitsList).CalcVectorToMove();
-
-        _selectedPosition = GetNearestWalkablePosition(targetPosition);
+            new AiActions(_selectedUnit, UnitList.AllUnitsList).CalcVectorToMove();
+        
+        _selectedPosition = GetPointOnSphereSurface(targetPosition, _selectedUnit.transform.position,
+            _selectedUnit.AttackRange);
         InvokeOnPositionSelected(_selectedPosition);
     }
 

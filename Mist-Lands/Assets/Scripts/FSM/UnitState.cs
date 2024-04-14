@@ -27,6 +27,5 @@ public abstract class UnitState : State
         ExitState(unit);
         newState.EnterState(unit);
         unit.State = newState;
-        Debug.Log(newState.GetType());
     }
 }

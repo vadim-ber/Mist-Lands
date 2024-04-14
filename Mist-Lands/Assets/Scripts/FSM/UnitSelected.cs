@@ -19,13 +19,9 @@ public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
             SwitchState(Transitions[0], unit);
         }
         else if (HasNewVector)
-        {
-            float distance = Vector3.Distance(unit.transform.position, unit.Selector.SelectedPosition);
-            if (unit.CurrentMovementRange > 0.1 && distance > unit.Agent.radius)
-            {
-                HasNewVector = false;
-                SwitchState(Transitions[1], unit);
-            }
+        {            
+            HasNewVector = false;
+            SwitchState(Transitions[1], unit);
         }                
     }
 

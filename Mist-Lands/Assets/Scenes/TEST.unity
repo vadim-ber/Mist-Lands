@@ -194,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 6330858462198720108, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: m_Name
-      value: Unit (2)
+      value: Ranger
       objectReference: {fileID: 0}
     - target: {fileID: 6330858462198720108, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
@@ -265,6 +265,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _selector
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8703875238563667881, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: _attackRange
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2257,7 +2262,12 @@ PrefabInstance:
     - target: {fileID: 8703875238563667881, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: _combatMode
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8703875238563667881, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: _attackRange
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

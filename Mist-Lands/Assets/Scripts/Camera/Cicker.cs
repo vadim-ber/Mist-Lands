@@ -34,7 +34,7 @@ public class Clicker : Selector
             return;
         }
         var unit = hit.collider.gameObject.GetComponent<Unit>();
-        if (unit)
+        if (unit && unit.Team == _team)
         {
             _selectedUnit = unit;
             InvokeOnUnitSelected(_selectedUnit);
