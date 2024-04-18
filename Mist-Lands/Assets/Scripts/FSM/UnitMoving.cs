@@ -4,12 +4,13 @@ using UnityEngine.AI;
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
 public class UnitMoving : UnitState, IUnitHandler
 {
+    private UnitFInderHelper _helper;
     public bool HasNewUnit { get; set; }
 
     public override void CheckSwitchState(Unit unit)
     {        
         if (!unit.Agent.pathPending)
-        {           
+        {  
             if (unit.Agent.remainingDistance <= unit.Agent.stoppingDistance)
             {               
                 SwitchState(Transitions[0], unit);                
@@ -31,7 +32,8 @@ public class UnitMoving : UnitState, IUnitHandler
     }
 
     public override void EnterState(Unit unit)
-    {        
+    {
+        _helper = new();
         unit.Agent.enabled = true;
         unit.Selector.OnNewUnitSelected += HandleNewUnit;
         unit.LastPosition = unit.transform.position;
@@ -51,7 +53,7 @@ public class UnitMoving : UnitState, IUnitHandler
             return;
         }
         unit.Animator.SetFloat("AgentVelocity", 0.3f);
-        unit.HasFinishedActions = true;
+        unit.HasFinishedActions = true;        
     }
 
     public void HandleNewUnit(Unit unit)
@@ -64,7 +66,8 @@ public class UnitMoving : UnitState, IUnitHandler
         unit.Animator.SetFloat("AgentVelocity", unit.Agent.velocity.magnitude/unit.Agent.speed);
         Move(unit, unit.Selector.SelectedPosition);
         UpdateMovementDistance(unit);
-        CheckSwitchState(unit);          
+        CheckSwitchState(unit);
+        _helper.FindUnitsInContact(unit);
     }
 
     private void Move(Unit unit, Vector3 newPosition)

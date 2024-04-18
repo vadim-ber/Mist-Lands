@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class UnitList : MonoBehaviour
 {
+    public delegate void UnitsContactDelegate(Unit unit, Unit[] unitsInContact);
+
+    public static event UnitsContactDelegate OnUnitsContact;
+
     private List<Team> _teams;
     private List<Unit> _allUnitsList;
 
@@ -15,6 +19,11 @@ public class UnitList : MonoBehaviour
     private void Start()
     {
         Initialize();
+    }
+
+    public static void InvokeOnUnitsContact(Unit unit, Unit[] array)
+    {
+        OnUnitsContact?.Invoke(unit, array);        
     }
 
     private void Initialize()

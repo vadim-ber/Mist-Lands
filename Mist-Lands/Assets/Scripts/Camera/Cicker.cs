@@ -17,7 +17,8 @@ public class Clicker : Selector
             return;
         }
         HandleLeftClick();
-        HandleRightClick();        
+        HandleRightClick();
+        HandleMoseTarget();
     }
 
     private void HandleLeftClick()
@@ -56,5 +57,48 @@ public class Clicker : Selector
         }
         _selectedUnit = null;
         InvokeOnUnitSelected(_selectedUnit);
+    }
+
+    private void HandleMoseTarget()
+    {
+        var mouse = Mouse.current;
+        if (mouse == null)
+        {
+            return;
+        }
+        if(_selectedUnit == null)
+        {
+            return;
+        }
+
+        Ray ray = _camera.ScreenPointToRay(mouse.position.ReadValue());
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            GameObject target = hit.transform.gameObject;
+            if(!target.CompareTag("Unit"))
+            {
+                return;
+            }
+            else
+            {
+                var unit = target.GetComponent<Unit>();
+                if(unit.Team == _selectedUnit.Team)
+                {
+                    return;
+                }
+                else
+                {
+                    if(!_unitsInRadius.Contains(unit))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Debug.Log($"{unit.name} - допустимая цель для {_selectedUnit.name}");
+                    }
+                }
+            }
+        }
     }
 }

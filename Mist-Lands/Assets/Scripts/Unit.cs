@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,7 +11,7 @@ public class Unit : FSM
     };
 
     [SerializeField] private CombatMode _combatMode;
-    [SerializeField] private float _attackRange = 1.5f;
+    [SerializeField] private float _attackRange = 2.5f;
     [SerializeField] private float _attackValue = 15f;
     [SerializeField] private float _defenceValue = 15f;
     [SerializeField] private float _height = 2f;      

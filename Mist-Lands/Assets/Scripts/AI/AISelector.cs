@@ -29,8 +29,7 @@ public class AISelector : Selector
             _selectedUnit = _team.ActiveUnits[nextIndex];
             InvokeOnUnitSelected(_selectedUnit);
         }        
-        Vector3 targetPosition =
-            new AiActions(_selectedUnit, UnitList.AllUnitsList).CalcVectorToMove();
+        Vector3 targetPosition = new AiActions(_selectedUnit).CalcVectorToMove();
         
         _selectedPosition = GetPointOnSphereSurface(targetPosition, _selectedUnit.transform.position,
             _selectedUnit.AttackRange);

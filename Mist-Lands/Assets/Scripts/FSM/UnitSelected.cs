@@ -1,9 +1,9 @@
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Selected", menuName = "ScriptableObjects/FSM/Create Selected state")]
 public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
-{    
+{
+    private UnitFInderHelper _helper;
     public bool HasNewUnit { get; set; }
     public bool HasNewVector { get; set; }
 
@@ -27,6 +27,7 @@ public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
 
     public override void EnterState(Unit unit)
     {
+        _helper = new();
         HasNewVector = false;
         unit.Outline.enabled = true;
         unit.Selector.OnNewPositionSelected += HandleNewVector;
@@ -51,6 +52,7 @@ public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
     public override void UpdateState(Unit unit)
     {
         CheckSwitchState(unit);
+        _helper.FindUnitsInContact(unit);
     }
 
     public void HandleNewUnit(Unit unit)

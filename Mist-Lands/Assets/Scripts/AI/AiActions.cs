@@ -1,15 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AiActions 
 {
     private Unit _unit;
-    private List<Unit> _allUnits;
-    private const float _maxRange = 10000f;
-    public AiActions(Unit unit, List<Unit> allUnits)
+    private const float _searchRadius = 1000f;
+    public AiActions(Unit unit)
     {
         _unit = unit;
-        _allUnits = allUnits;
     }
     public Vector3 CalcVectorToMove()
     {
@@ -33,29 +30,6 @@ public class AiActions
 
     private Vector3 Convergence()
     {
-        float minDistance = _maxRange;
-        Unit closestUnit = null;    
-        foreach(Unit unit in _allUnits)
-        {
-            if(unit.Team != _unit.Team)
-            {
-                float dist = Vector3.Distance(unit.transform.position,
-                    _unit.transform.position);
-                if(dist < minDistance)
-                {
-                    minDistance = dist;
-                    closestUnit = unit;
-                }
-            }
-        }
-        if (closestUnit != null)
-        {
-            return closestUnit.transform.position;
-        }
-        else
-        {
-            Debug.LogWarning("No unit found!");
-            return Vector3.zero; 
-        }
+        return _unit.Selector.FindClosestUnitPosition(_unit, _searchRadius, false);
     }
 }
