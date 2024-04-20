@@ -65,20 +65,22 @@ public abstract class Selector
         return center + direction * (radius - 1); 
     }
 
+    protected abstract void HandleAttack(Unit attacker, Unit defenced);
+
     public Vector3 FindClosestUnitPosition(Unit targetUnit, float radius, bool isFriendly)
     {
         float minDistance = radius;
         Unit closestUnit = null;
-        foreach (Unit unit in _unitList.AllUnitsList)
+        foreach (KeyValuePair<GameObject, Unit> entry in _unitList.AllUnitsDictonary)
         {
-            if ((unit.Team == targetUnit.Team) == isFriendly)
+            if ((entry.Value.Team == targetUnit.Team) == isFriendly)
             {
-                float dist = Vector3.Distance(unit.transform.position,
+                float dist = Vector3.Distance(entry.Value.transform.position,
                     targetUnit.transform.position);
                 if (dist < minDistance)
                 {
                     minDistance = dist;
-                    closestUnit = unit;
+                    closestUnit = entry.Value;
                 }
             }
         }
@@ -96,15 +98,15 @@ public abstract class Selector
     public List<Unit> FindUnitsInRadius(Unit targetUnit, float radius, bool isFriendly)
     {
         List<Unit> unitsInRadius = new();
-        foreach (Unit unit in _unitList.AllUnitsList)
+        foreach (KeyValuePair<GameObject, Unit> entry in _unitList.AllUnitsDictonary)
         {
-            if ((unit.Team == targetUnit.Team) == isFriendly)
+            if ((entry.Value.Team == targetUnit.Team) == isFriendly)
             {
-                float dist = Vector3.Distance(unit.transform.position,
+                float dist = Vector3.Distance(entry.Value.transform.position,
                     targetUnit.transform.position);
                 if (dist <= radius)
                 {
-                    unitsInRadius.Add(unit);
+                    unitsInRadius.Add(entry.Value);
                 }
             }
         }

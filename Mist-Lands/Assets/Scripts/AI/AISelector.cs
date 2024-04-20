@@ -45,4 +45,9 @@ public class AISelector : Selector
     {
         _selectedUnit = null;
     }
+
+    protected override void HandleAttack(Unit attacker, Unit defenced)
+    {
+        throw new System.NotImplementedException();
+    }
 }

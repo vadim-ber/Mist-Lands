@@ -4,10 +4,14 @@ using UnityEngine.InputSystem;
 public class Clicker : Selector
 {    
     private Camera _camera;
+    private CursorData _cursorData;
+    private bool _targetFinded;
 
     public Clicker(Team team) : base(team)
     {        
-        _camera = Camera.main;       
+        _camera = Camera.main;
+        _cursorData = Resources.Load<CursorData>("ScriptableObjects/CursorData");
+        Cursor.SetCursor(_cursorData.BaseCursor, Vector2.zero, CursorMode.Auto);
     }
 
     public override void UpdateSelector(Transform transform)
@@ -16,9 +20,13 @@ public class Clicker : Selector
         {
             return;
         }
+        HandleMouseTarget();
+        if(_targetFinded == true)
+        {
+            return;
+        }
         HandleLeftClick();
-        HandleRightClick();
-        HandleMoseTarget();
+        HandleRightClick();        
     }
 
     private void HandleLeftClick()
@@ -59,7 +67,7 @@ public class Clicker : Selector
         InvokeOnUnitSelected(_selectedUnit);
     }
 
-    private void HandleMoseTarget()
+    private void HandleMouseTarget()
     {
         var mouse = Mouse.current;
         if (mouse == null)
@@ -78,12 +86,14 @@ public class Clicker : Selector
             GameObject target = hit.transform.gameObject;
             if(!target.CompareTag("Unit"))
             {
+                Cursor.SetCursor(_cursorData.BaseCursor, Vector2.zero, CursorMode.Auto);
+                _targetFinded = false;
                 return;
             }
             else
             {
-                var unit = target.GetComponent<Unit>();
-                if(unit.Team == _selectedUnit.Team)
+                UnitList.AllUnitsDictonary.TryGetValue(target, out Unit unit);
+                if (unit.Team == _selectedUnit.Team)
                 {
                     return;
                 }
@@ -95,10 +105,27 @@ public class Clicker : Selector
                     }
                     else
                     {
-                        Debug.Log($"{unit.name} - допустимая цель для {_selectedUnit.name}");
+                        if(_selectedUnit.Combat == Unit.CombatMode.Meele)
+                        {
+                            Cursor.SetCursor(_cursorData.MeeleAttackCursor, Vector2.zero, CursorMode.Auto);
+                        }
+                        if (_selectedUnit.Combat == Unit.CombatMode.Ranged)
+                        {
+                            Cursor.SetCursor(_cursorData.RangedAttackCursor, Vector2.zero, CursorMode.Auto);
+                        }
+                        _targetFinded = true;
+                        HandleAttack(_selectedUnit, unit);
                     }
                 }
             }
+        }
+    }
+
+    protected override void HandleAttack(Unit attacker, Unit defenced)
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Debug.Log($"{attacker.name} атакует {defenced.name}!");
         }
     }
 }

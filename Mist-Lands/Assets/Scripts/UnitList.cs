@@ -9,11 +9,11 @@ public class UnitList : MonoBehaviour
     public static event UnitsContactDelegate OnUnitsContact;
 
     private List<Team> _teams;
-    private List<Unit> _allUnitsList;
+    private Dictionary<GameObject, Unit> _allUnitsDictonary;
 
-    public List<Unit> AllUnitsList
+    public Dictionary<GameObject, Unit> AllUnitsDictonary
     {
-        get => _allUnitsList;
+        get => _allUnitsDictonary;
     }
 
     private void Start()
@@ -29,13 +29,19 @@ public class UnitList : MonoBehaviour
     private void Initialize()
     {
         _teams = FindObjectsByType<Team>(FindObjectsSortMode.None).ToList();
-        _allUnitsList = new List<Unit>();
+        _allUnitsDictonary = new();
 
         if (_teams.Count > 0)
         {
             foreach (var team in _teams)
             {
-                _allUnitsList.AddRange(team.AllUnits);
+                if(team.AllUnits.Count > 0)
+                {
+                    foreach (var unit in team.AllUnits)
+                    {
+                        _allUnitsDictonary.Add(unit.gameObject, unit);
+                    }
+                }               
             }
         }
         else
