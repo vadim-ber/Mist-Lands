@@ -5,6 +5,7 @@ public abstract class UnitState : State
     [SerializeField] private UnitState[] _transitions;
     [SerializeField] private string _currentStateAnimationName;
     [SerializeField] private float _animationTrasitionTime = 0f;
+    [SerializeField] private int _animationLayer = 0;
     public UnitState[] Transitions
     {
         get => _transitions;
@@ -16,6 +17,10 @@ public abstract class UnitState : State
     public float AnimationTrasitionTime
     {
         get => _animationTrasitionTime;
+    }
+    public int AnimationLayer
+    {
+        get => _animationLayer;
     }
     public abstract void EnterState(Unit unit);
     public abstract void ExitState(Unit unit);

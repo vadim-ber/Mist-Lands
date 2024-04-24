@@ -2,14 +2,24 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Selected", menuName = "ScriptableObjects/FSM/Create Selected state")]
 public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
-{
-    private UnitFInderHelper _helper;
+{   
     public bool HasNewUnit { get; set; }
     public bool HasNewVector { get; set; }
+    private bool _attackInvoked;
 
     public override void CheckSwitchState(Unit unit)
     {
-        if (HasNewUnit)
+        if (HasNewVector)
+        {
+            HasNewVector = false;
+            SwitchState(Transitions[1], unit);
+        }
+        else if (_attackInvoked && unit.CurrentActionPoints >= unit.Weapon.AttackPrice)
+        {  
+            SwitchState(Transitions[2], unit);
+            _attackInvoked = false;
+        }
+        else if (HasNewUnit)
         {
             HasNewUnit = false;
             SwitchState(Transitions[0], unit);
@@ -18,41 +28,30 @@ public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
         {
             SwitchState(Transitions[0], unit);
         }
-        else if (HasNewVector)
-        {            
-            HasNewVector = false;
-            SwitchState(Transitions[1], unit);
-        }                
     }
 
     public override void EnterState(Unit unit)
-    {
-        _helper = new();
+    {        
         HasNewVector = false;
+        unit.Obstacle.enabled = false;
         unit.Outline.enabled = true;
         unit.Selector.OnNewPositionSelected += HandleNewVector;
         unit.Selector.OnNewUnitSelected += HandleNewUnit;
-        if (unit.Animator == null)
-        {
-            return;
-        }
+        unit.Selector.OnAttackIsPossible += HandleAttack;
         unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);
+        unit.Animator.SetFloat("Speed", 0f);
     }
 
     public override void ExitState(Unit unit)
     {
         unit.Selector.OnNewPositionSelected -= HandleNewVector;
         unit.Selector.OnNewUnitSelected -= HandleNewUnit;
-        if (unit.Animator == null)
-        {
-            return;
-        }        
-    }    
+        unit.Selector.OnAttackIsPossible -= HandleAttack;
+    }
 
     public override void UpdateState(Unit unit)
     {
         CheckSwitchState(unit);
-        _helper.FindUnitsInContact(unit);
     }
 
     public void HandleNewUnit(Unit unit)
@@ -63,5 +62,10 @@ public class UnitSelected : UnitState, IUnitHandler, INewVectorHandler
     public void HandleNewVector(Vector3 newVector)
     {        
         HasNewVector = true;
+    }
+
+    private void HandleAttack(Unit[] units)
+    {        
+        _attackInvoked = true;
     }
 }

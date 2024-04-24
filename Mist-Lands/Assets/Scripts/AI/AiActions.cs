@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AiActions 
 {
-    private Unit _unit;
+    private readonly Unit _unit;
     private const float _searchRadius = 1000f;
     public AiActions(Unit unit)
     {
@@ -10,10 +10,10 @@ public class AiActions
     }
     public Vector3 CalcVectorToMove()
     {
-        return _unit.Combat switch
+        return _unit.Weapon.Combat switch
         {
-            Unit.CombatMode.Meele => HandleMeeleCombat(),
-            Unit.CombatMode.Ranged => HandleRangedCombat(),
+            Weapon.CombatMode.Meele => HandleMeeleCombat(),
+            Weapon.CombatMode.Ranged => HandleRangedCombat(),
             _ => Vector3.zero,
         };
     }
@@ -30,6 +30,7 @@ public class AiActions
 
     private Vector3 Convergence()
     {
-        return _unit.Selector.FindClosestUnitPosition(_unit, _searchRadius, false);
+        var finder = new UnitFinder(_unit, _unit.Selector.UnitList.AllUnitsDictonary);
+        return finder.FindClosestUnitPosition(_searchRadius, false);
     }
 }

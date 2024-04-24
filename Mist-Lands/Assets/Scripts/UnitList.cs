@@ -9,7 +9,7 @@ public class UnitList : MonoBehaviour
     public static event UnitsContactDelegate OnUnitsContact;
 
     private List<Team> _teams;
-    private Dictionary<GameObject, Unit> _allUnitsDictonary;
+    private Dictionary<GameObject, Unit> _allUnitsDictonary = new();
 
     public Dictionary<GameObject, Unit> AllUnitsDictonary
     {
@@ -29,7 +29,6 @@ public class UnitList : MonoBehaviour
     private void Initialize()
     {
         _teams = FindObjectsByType<Team>(FindObjectsSortMode.None).ToList();
-        _allUnitsDictonary = new();
 
         if (_teams.Count > 0)
         {

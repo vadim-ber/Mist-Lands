@@ -3,8 +3,7 @@ using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
 public class UnitMoving : UnitState, IUnitHandler
-{
-    private UnitFInderHelper _helper;
+{    
     public bool HasNewUnit { get; set; }
 
     public override void CheckSwitchState(Unit unit)
@@ -32,15 +31,11 @@ public class UnitMoving : UnitState, IUnitHandler
     }
 
     public override void EnterState(Unit unit)
-    {
-        _helper = new();
-        unit.Agent.enabled = true;
+    {        
+        unit.Obstacle.enabled = false;
+        unit.Agent.enabled = true;        
         unit.Selector.OnNewUnitSelected += HandleNewUnit;
         unit.LastPosition = unit.transform.position;
-        if (unit.Animator == null)
-        {
-            return;
-        }
         unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);
     }
 
@@ -48,11 +43,6 @@ public class UnitMoving : UnitState, IUnitHandler
     {        
         unit.Agent.enabled = false;
         unit.Selector.OnNewUnitSelected -= HandleNewUnit;
-        if (unit.Animator == null)
-        {
-            return;
-        }
-        unit.Animator.SetFloat("AgentVelocity", 0.3f);
         unit.HasFinishedActions = true;        
     }
 
@@ -63,11 +53,10 @@ public class UnitMoving : UnitState, IUnitHandler
 
     public override void UpdateState(Unit unit)
     {
-        unit.Animator.SetFloat("AgentVelocity", unit.Agent.velocity.magnitude/unit.Agent.speed);
+        unit.Animator.SetFloat("Speed", unit.Agent.velocity.magnitude/unit.Agent.speed);
         Move(unit, unit.Selector.SelectedPosition);
         UpdateMovementDistance(unit);
         CheckSwitchState(unit);
-        _helper.FindUnitsInContact(unit);
     }
 
     private void Move(Unit unit, Vector3 newPosition)

@@ -1,30 +1,32 @@
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
 public class Unit : FSM
-{    
-    public enum CombatMode
-    {
-        Meele,
-        Ranged
-    };
-
-    [SerializeField] private CombatMode _combatMode;
-    [SerializeField] private float _attackRange = 2.5f;
-    [SerializeField] private float _attackValue = 15f;
-    [SerializeField] private float _defenceValue = 15f;
-    [SerializeField] private float _height = 2f;      
+{
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Weapon _weapon;       
     [SerializeField] private UnitState _state;
     [SerializeField] private HeightModifier _heightModifier;
-    [SerializeField] private Animator _animator;
     [SerializeField] private float _maximumMovementDistance = 10;
+    [SerializeField] private int _maximumActionPoints = 2;
+    [SerializeField] private float _attackValue = 15f;
+    [SerializeField] private float _defenceValue = 15f;
+    [SerializeField] private float _height = 2f;
     private Team _team;
-    private Selector _selector;
+    private Selector _selector;    
     private NavMeshObstacle _obstacle;
     private NavMeshAgent _agent;
     private Outline _outline;
+    private Coroutine _coroutine;
+    private UnitFinder _unitFinder;
+    private List<Unit> _findedUnits;
+    private Unit _targetUnit;
     private float _currentMovementDistance;
+    private int _currentActionPoints;
     private float _currrentHeightModifer;
     private float _currentAttackValue;
     private float _currentDefenceValue;
@@ -56,9 +58,23 @@ public class Unit : FSM
     {
         get => _animator;
     }
+    public List<Unit> FindedUnits
+    {
+        get => _findedUnits;
+    }
+    public Unit TargetUnit
+    {
+        get => _targetUnit;
+        set => _targetUnit = value;
+    }    
     public float CurrentMovementRange
     {
         get => _currentMovementDistance;
+    }
+    public int CurrentActionPoints
+    {
+        get => _currentActionPoints;
+        set => _currentActionPoints = value;
     }
     public Vector3 LastPosition
     {
@@ -69,10 +85,6 @@ public class Unit : FSM
     {
         get => _team;
     }
-    public float AttackRange
-    {
-        get => _attackRange;
-    }
     public float CurrentAttackValue
     {
         get => _currentAttackValue;
@@ -81,9 +93,9 @@ public class Unit : FSM
     {
         get => _currentDefenceValue;
     }
-    public CombatMode Combat
+    public Weapon Weapon
     {
-        get => _combatMode;
+        get => _weapon;
     }
     public bool HasFinishedActions
     {
@@ -101,19 +113,23 @@ public class Unit : FSM
     }
 
     public void Initialize(Team team)
-    {
+    {        
+        _animator.runtimeAnimatorController = _weapon.AnimatorController;
         _team = team;
         _selector = team.Selector;
+        _unitFinder = new(this, team.Selector.UnitList.AllUnitsDictonary);
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
-        _agent = GetComponent<NavMeshAgent>();
+        _agent = GetComponent<NavMeshAgent>();        
         _currentMovementDistance = _maximumMovementDistance;
+        _currentActionPoints = _maximumActionPoints;
         _state.EnterState(this);
     }
 
     public void NewTurn()
     {
         _currentMovementDistance = _maximumMovementDistance;
+        _currentActionPoints = _maximumActionPoints;
         _hasFinishedActions = false;
     }
 
@@ -126,6 +142,10 @@ public class Unit : FSM
     {
         _state.UpdateState(this);
         ApplyHeightModifier();
+        if(_state is not UnitNotSelected)
+        {
+            _findedUnits = _unitFinder.FindUnitsInRadius(Weapon.AttackRange, false);
+        }
     }
 
     private void ApplyHeightModifier()
@@ -133,5 +153,25 @@ public class Unit : FSM
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
         _currentAttackValue = _attackValue * _currrentHeightModifer;
         _currentDefenceValue = _defenceValue * _currrentHeightModifer;
+    }
+
+    public IEnumerator WaitRotationTo(Vector3 targetPosition)
+    {        
+        if (_coroutine != null)
+        {
+            StopAllCoroutines();
+        }
+        yield return _coroutine = StartCoroutine(RotateTo(targetPosition));
+    }
+
+    private IEnumerator RotateTo(Vector3 targetPosition)
+    {        
+        Quaternion toRotation = Quaternion.LookRotation(targetPosition - transform.position);
+        while (Quaternion.Angle(transform.rotation, toRotation) > 0.01f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation,
+                _agent.speed * Time.deltaTime);
+            yield return null;
+        }
     }
 }

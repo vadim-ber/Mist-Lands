@@ -70,62 +70,47 @@ public class Clicker : Selector
     private void HandleMouseTarget()
     {
         var mouse = Mouse.current;
-        if (mouse == null)
-        {
-            return;
-        }
-        if(_selectedUnit == null)
+        if (mouse == null || _selectedUnit == null)
         {
             return;
         }
 
         Ray ray = _camera.ScreenPointToRay(mouse.position.ReadValue());
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (!Physics.Raycast(ray, out RaycastHit hit))
         {
-            GameObject target = hit.transform.gameObject;
-            if(!target.CompareTag("Unit"))
-            {
-                Cursor.SetCursor(_cursorData.BaseCursor, Vector2.zero, CursorMode.Auto);
-                _targetFinded = false;
-                return;
-            }
-            else
-            {
-                UnitList.AllUnitsDictonary.TryGetValue(target, out Unit unit);
-                if (unit.Team == _selectedUnit.Team)
-                {
-                    return;
-                }
-                else
-                {
-                    if(!_unitsInRadius.Contains(unit))
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        if(_selectedUnit.Combat == Unit.CombatMode.Meele)
-                        {
-                            Cursor.SetCursor(_cursorData.MeeleAttackCursor, Vector2.zero, CursorMode.Auto);
-                        }
-                        if (_selectedUnit.Combat == Unit.CombatMode.Ranged)
-                        {
-                            Cursor.SetCursor(_cursorData.RangedAttackCursor, Vector2.zero, CursorMode.Auto);
-                        }
-                        _targetFinded = true;
-                        HandleAttack(_selectedUnit, unit);
-                    }
-                }
-            }
+            return;
         }
-    }
 
-    protected override void HandleAttack(Unit attacker, Unit defenced)
-    {
+        GameObject target = hit.transform.gameObject;
+        if (!target.CompareTag("Unit"))
+        {
+            Cursor.SetCursor(_cursorData.BaseCursor, Vector2.zero, CursorMode.Auto);
+            _targetFinded = false;
+            return;
+        }
+
+        UnitList.AllUnitsDictonary.TryGetValue(target, out Unit unit);
+        if (unit == null || unit.Team == _selectedUnit.Team 
+            || !_selectedUnit.FindedUnits.Contains(unit))
+        {
+            return;
+        }
+
+        if (_selectedUnit.Weapon.Combat == Weapon.CombatMode.Meele)
+        {
+            Cursor.SetCursor(_cursorData.MeeleAttackCursor, Vector2.zero, CursorMode.Auto);
+        }
+        else if (_selectedUnit.Weapon.Combat == Weapon.CombatMode.Ranged)
+        {
+            Cursor.SetCursor(_cursorData.RangedAttackCursor, Vector2.zero, CursorMode.Auto);
+        }
+
+        _targetFinded = true;
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Debug.Log($"{attacker.name} атакует {defenced.name}!");
+            _selectedUnit.TargetUnit = unit;
+            InvokeOnAttackIsPossible(new Unit[] { unit });
         }
     }
 }

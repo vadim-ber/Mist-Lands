@@ -24,21 +24,14 @@ public class UnitNotSelected :UnitState, IUnitHandler
         unit.Agent.enabled = false;
         unit.Selector.OnNewUnitSelected += HandleNewUnit;
         unit.Obstacle.enabled = true;
-        if (unit.Animator == null)
-        {
-            return;
-        }
         unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);
+        unit.Animator.SetFloat("Speed", 0f);
     }
 
     public override void ExitState(Unit unit)
     {
         unit.Selector.OnNewUnitSelected -= HandleNewUnit;
         unit.Obstacle.enabled = false;
-        if (unit.Animator == null)
-        {
-            return;
-        }       
     }  
 
     public override void UpdateState(Unit unit)

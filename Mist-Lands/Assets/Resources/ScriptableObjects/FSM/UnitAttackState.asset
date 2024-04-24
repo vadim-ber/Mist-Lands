@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13b31172e32cf8244b24fdc89ab8c335, type: 3}
-  m_Name: UnitMoving
+  m_Script: {fileID: 11500000, guid: bc8705af9f752304ca87fb6d7fbe6ac5, type: 3}
+  m_Name: UnitAttackState
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 11400000, guid: 50a2b8ee5d9653a46b7c505884333bc3, type: 2}
-  - {fileID: 11400000, guid: 3c04e4c7c9c4d3547bb966ea3807fc00, type: 2}
-  _currentStateAnimationName: Idle/Walk/Run Blend
+  - {fileID: 11400000}
+  _currentStateAnimationName: Attack1
   _animationTrasitionTime: 0.1
+  _animationLayer: 0
+  _attackTimer: 2

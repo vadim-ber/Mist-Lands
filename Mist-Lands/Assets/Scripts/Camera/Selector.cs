@@ -1,17 +1,16 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public abstract class Selector
-{
-    protected List<Unit> _unitsInRadius;
+{    
     protected Unit _selectedUnit;
     protected Team _team;
     protected Vector3 _selectedPosition;
     protected UnitList _unitList;
     public event Action<Unit> OnNewUnitSelected;
     public event Action<Vector3> OnNewPositionSelected;
+    public event Action<Unit[]> OnAttackIsPossible;
 
     public UnitList UnitList
     {
@@ -38,10 +37,13 @@ public abstract class Selector
     {
         OnNewUnitSelected?.Invoke(unit);
     }
-
     protected void InvokeOnPositionSelected(Vector3 position)
     {       
         OnNewPositionSelected?.Invoke(position);
+    }
+    protected void InvokeOnAttackIsPossible(Unit[] units)
+    {
+        OnAttackIsPossible?.Invoke(units);
     }
 
     protected Vector3 GetNearestWalkablePosition(Vector3 target)
@@ -63,61 +65,5 @@ public abstract class Selector
         Vector3 direction = target - center;
         direction.Normalize(); 
         return center + direction * (radius - 1); 
-    }
-
-    protected abstract void HandleAttack(Unit attacker, Unit defenced);
-
-    public Vector3 FindClosestUnitPosition(Unit targetUnit, float radius, bool isFriendly)
-    {
-        float minDistance = radius;
-        Unit closestUnit = null;
-        foreach (KeyValuePair<GameObject, Unit> entry in _unitList.AllUnitsDictonary)
-        {
-            if ((entry.Value.Team == targetUnit.Team) == isFriendly)
-            {
-                float dist = Vector3.Distance(entry.Value.transform.position,
-                    targetUnit.transform.position);
-                if (dist < minDistance)
-                {
-                    minDistance = dist;
-                    closestUnit = entry.Value;
-                }
-            }
-        }
-        if (closestUnit != null)
-        {
-            return closestUnit.transform.position;
-        }
-        else
-        {
-            Debug.LogWarning("No unit found!");
-            return targetUnit.transform.position;
-        }
-    }
-
-    public List<Unit> FindUnitsInRadius(Unit targetUnit, float radius, bool isFriendly)
-    {
-        List<Unit> unitsInRadius = new();
-        foreach (KeyValuePair<GameObject, Unit> entry in _unitList.AllUnitsDictonary)
-        {
-            if ((entry.Value.Team == targetUnit.Team) == isFriendly)
-            {
-                float dist = Vector3.Distance(entry.Value.transform.position,
-                    targetUnit.transform.position);
-                if (dist <= radius)
-                {
-                    unitsInRadius.Add(entry.Value);
-                }
-            }
-        }
-        _unitsInRadius = unitsInRadius; 
-        if (unitsInRadius.Count > 0)
-        {
-            return unitsInRadius;
-        }
-        else
-        {            
-            return new List<Unit>(); 
-        }
-    }
+    }    
 }

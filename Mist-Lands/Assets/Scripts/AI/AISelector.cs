@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 public class AISelector : Selector
-{   
+{    
     public AISelector(Team team) : base(team)
     {             
         _selectedUnit = null;
@@ -9,7 +9,7 @@ public class AISelector : Selector
     }
 
     public override void UpdateSelector(Transform transform)
-    {
+    {        
         if (_team.State is not TeamSelected)
         {
             return;
@@ -28,12 +28,17 @@ public class AISelector : Selector
             int nextIndex = (_team.ActiveUnits.IndexOf(_selectedUnit) + 1) % _team.ActiveUnits.Count;
             _selectedUnit = _team.ActiveUnits[nextIndex];
             InvokeOnUnitSelected(_selectedUnit);
+        }
+        if (_selectedUnit.FindedUnits != null && _selectedUnit.FindedUnits.Count > 0)
+        {   
+            _selectedUnit.TargetUnit = _selectedUnit.FindedUnits[0];
+            InvokeOnAttackIsPossible(_selectedUnit.FindedUnits.ToArray());
         }        
         Vector3 targetPosition = new AiActions(_selectedUnit).CalcVectorToMove();
         
         _selectedPosition = GetPointOnSphereSurface(targetPosition, _selectedUnit.transform.position,
-            _selectedUnit.AttackRange);
-        InvokeOnPositionSelected(_selectedPosition);
+            _selectedUnit.Weapon.AttackRange);
+        InvokeOnPositionSelected(_selectedPosition);        
     }
 
     public override void StopListening()
@@ -44,10 +49,5 @@ public class AISelector : Selector
     private void ResetSelectedUnit()
     {
         _selectedUnit = null;
-    }
-
-    protected override void HandleAttack(Unit attacker, Unit defenced)
-    {
-        throw new System.NotImplementedException();
     }
 }

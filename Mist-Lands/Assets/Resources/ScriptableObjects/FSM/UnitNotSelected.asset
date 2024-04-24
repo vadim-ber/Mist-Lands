@@ -15,5 +15,5 @@ MonoBehaviour:
   _transitions:
   - {fileID: 11400000, guid: 50a2b8ee5d9653a46b7c505884333bc3, type: 2}
   - {fileID: 11400000, guid: 39983a383898f6b4d975110b660c951a, type: 2}
-  _currentStateAnimationName: Idle
+  _currentStateAnimationName: Idle/Walk/Run Blend
   _animationTrasitionTime: 0.1

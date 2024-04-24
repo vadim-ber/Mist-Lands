@@ -78,7 +78,7 @@ public class Team : FSM
     }
 
     private void Awake()
-    {
+    {        
         Initialize();       
     }
 
@@ -98,13 +98,13 @@ public class Team : FSM
         _state.EnterState(this);
         foreach (var unit in _activeUnits)
         {
-            unit.Initialize(this);
+            unit.Initialize(this);           
         }
     }
     
     private void CheckTeamMode()
-    {
-        switch(_mode)
+    {        
+        switch (_mode)
         {
             case TeamMode.PlayerControlled:
                 _selector = new Clicker(this);                
