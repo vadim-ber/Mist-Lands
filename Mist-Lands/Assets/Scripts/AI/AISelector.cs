@@ -14,7 +14,7 @@ public class AISelector : Selector
         {
             return;
         }
-        if (_team.ActiveUnits.All(unit => unit.HasFinishedActions))
+        if (_team.ActiveUnits.All(unit => unit.AttacksArePossible == false))
         {
             _team.EndCurrentTurn();
             return;
@@ -23,7 +23,7 @@ public class AISelector : Selector
         {
             return;
         }
-        if (_selectedUnit == null || _selectedUnit.HasFinishedActions)
+        if (_selectedUnit == null || _selectedUnit.AttacksArePossible == false)
         {            
             int nextIndex = (_team.ActiveUnits.IndexOf(_selectedUnit) + 1) % _team.ActiveUnits.Count;
             _selectedUnit = _team.ActiveUnits[nextIndex];
@@ -38,7 +38,7 @@ public class AISelector : Selector
         
         _selectedPosition = GetPointOnSphereSurface(targetPosition, _selectedUnit.transform.position,
             _selectedUnit.Weapon.AttackRange);
-        InvokeOnPositionSelected(_selectedPosition);        
+        InvokeOnPositionSelected(_selectedPosition); 
     }
 
     public override void StopListening()

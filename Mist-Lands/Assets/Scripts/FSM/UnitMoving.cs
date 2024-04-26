@@ -43,7 +43,7 @@ public class UnitMoving : UnitState, IUnitHandler
     {        
         unit.Agent.enabled = false;
         unit.Selector.OnNewUnitSelected -= HandleNewUnit;
-        unit.HasFinishedActions = true;        
+        unit.PathIsCompleted = true;        
     }
 
     public void HandleNewUnit(Unit unit)

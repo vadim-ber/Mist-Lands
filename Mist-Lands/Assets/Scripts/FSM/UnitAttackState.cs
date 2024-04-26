@@ -1,22 +1,22 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UnitAttackState", menuName = "ScriptableObjects/FSM/Create UnitAttackState")]
-public class UnitAttackState : UnitState
+public class UnitAttackState : UnitState, IUnitHandler
 {
-    [SerializeField] float _attackTimer = 2f;
-    private float _attackTime = 0f;
+    public bool HasNewUnit { get; set; }
+
     public override void CheckSwitchState(Unit unit)
     {
-        if (unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1)
+        if (HasNewUnit)
         {
-            return;
+            HasNewUnit = false;
+            SwitchState(Transitions[2], unit);
         }
-        if (unit.Team.Mode is Team.TeamMode.AIControlled && unit.CurrentActionPoints
-            >= unit.Weapon.AttackPrice)
+        if (unit.Team.State is TeamNotSelected)
         {
-            SwitchState(Transitions[1], unit);
+            SwitchState(Transitions[2], unit);
         }
-        else
+        if (unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
         {
             SwitchState(Transitions[0], unit);
         }
@@ -24,11 +24,13 @@ public class UnitAttackState : UnitState
 
     public override void EnterState(Unit unit)
     {
-        unit.StartCoroutine(unit.WaitRotationTo(unit.TargetUnit.transform.position));
-        _attackTime = 0f;
+        if(unit.TargetUnit != null)
+        {
+            unit.StartCoroutine(unit.WaitRotationTo(unit.TargetUnit.transform.position));
+        }        
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = false;
-        Debug.Log($"{unit.name} начинает атаку {unit.TargetUnit.name}");        
+        unit.Selector.OnNewUnitSelected += HandleNewUnit;    
         unit.CurrentActionPoints -= unit.Weapon.AttackPrice;
         unit.Animator.StopPlayback();
         unit.Animator.Play(CurrentStateAnimationName, AnimationLayer);
@@ -37,11 +39,16 @@ public class UnitAttackState : UnitState
     public override void ExitState(Unit unit)
     {
         Debug.Log($"{unit.name} заканчивает атаку");
+        unit.Selector.OnNewUnitSelected -= HandleNewUnit;
+    }
+
+    public void HandleNewUnit(Unit unit)
+    {
+        HasNewUnit = true;
     }
 
     public override void UpdateState(Unit unit)
     {
         CheckSwitchState(unit);
-        _attackTime += Time.deltaTime;
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   _transitions:
   - {fileID: 11400000, guid: 50a2b8ee5d9653a46b7c505884333bc3, type: 2}
   - {fileID: 11400000}
+  - {fileID: 11400000, guid: 3c04e4c7c9c4d3547bb966ea3807fc00, type: 2}
   _currentStateAnimationName: Attack1
   _animationTrasitionTime: 0.1
   _animationLayer: 0
-  _attackTimer: 2
