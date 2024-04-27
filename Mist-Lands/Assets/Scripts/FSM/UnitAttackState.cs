@@ -1,15 +1,12 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UnitAttackState", menuName = "ScriptableObjects/FSM/Create UnitAttackState")]
-public class UnitAttackState : UnitState, IUnitHandler
-{
-    public bool HasNewUnit { get; set; }
-
+public class UnitAttackState : UnitState
+{  
     public override void CheckSwitchState(Unit unit)
     {
-        if (HasNewUnit)
-        {
-            HasNewUnit = false;
+        if (unit.Selector.SelectedUnit != unit)
+        {            
             SwitchState(Transitions[2], unit);
         }
         if (unit.Team.State is TeamNotSelected)
@@ -29,8 +26,7 @@ public class UnitAttackState : UnitState, IUnitHandler
             unit.StartCoroutine(unit.WaitRotationTo(unit.TargetUnit.transform.position));
         }        
         unit.Obstacle.enabled = false;
-        unit.Agent.enabled = false;
-        unit.Selector.OnNewUnitSelected += HandleNewUnit;    
+        unit.Agent.enabled = false;    
         unit.CurrentActionPoints -= unit.Weapon.AttackPrice;
         unit.Animator.StopPlayback();
         unit.Animator.Play(CurrentStateAnimationName, AnimationLayer);
@@ -39,12 +35,6 @@ public class UnitAttackState : UnitState, IUnitHandler
     public override void ExitState(Unit unit)
     {
         Debug.Log($"{unit.name} заканчивает атаку");
-        unit.Selector.OnNewUnitSelected -= HandleNewUnit;
-    }
-
-    public void HandleNewUnit(Unit unit)
-    {
-        HasNewUnit = true;
     }
 
     public override void UpdateState(Unit unit)

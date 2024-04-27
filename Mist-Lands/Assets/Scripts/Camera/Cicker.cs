@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Clicker : Selector
 {    
-    private Camera _camera;
-    private CursorData _cursorData;
+    private readonly Camera _camera;
+    private readonly CursorData _cursorData;
     private bool _targetFinded;
 
     public Clicker(Team team) : base(team)
@@ -55,6 +55,7 @@ public class Clicker : Selector
         }
         _selectedPosition = GetNearestWalkablePosition(hit.point);
         InvokeOnPositionSelected(_selectedPosition);
+        _hasNewSelectedPosition = true;
     }
 
     private void HandleRightClick()
@@ -111,6 +112,7 @@ public class Clicker : Selector
         {
             _selectedUnit.TargetUnit = unit;
             InvokeOnAttackIsPossible(new Unit[] { unit });
+            _attackInvoked = true;
         }
     }
 }

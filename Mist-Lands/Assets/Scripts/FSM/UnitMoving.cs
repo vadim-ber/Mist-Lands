@@ -3,9 +3,7 @@ using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
 public class UnitMoving : UnitState
-{    
-    public bool HasNewUnit { get; set; }
-
+{  
     public override void CheckSwitchState(Unit unit)
     {        
         if (!unit.Agent.pathPending)

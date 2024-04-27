@@ -1,10 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NotSelected", menuName = "ScriptableObjects/FSM/Create NOT Selected state")]
-public class UnitNotSelected :UnitState
-{
-    public bool HasNewUnit { get; set; }
-
+public class UnitNotSelected : UnitState
+{  
     public override void CheckSwitchState(Unit unit)
     {        
         if(unit.Team.State is not TeamSelected)
@@ -12,8 +10,7 @@ public class UnitNotSelected :UnitState
             return;
         }
         if(unit.Selector.SelectedUnit == unit)
-        {
-            HasNewUnit = false;
+        {           
             SwitchState(Transitions[0], unit);
         }
     }        
