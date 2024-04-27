@@ -5,7 +5,6 @@ public class AISelector : Selector
     public AISelector(Team team) : base(team)
     {             
         _selectedUnit = null;
-        _team.OnTurnEnd += ResetSelectedUnit;
     }
 
     public override void UpdateSelector(Transform transform)
@@ -24,10 +23,10 @@ public class AISelector : Selector
             return;
         }
         if (_selectedUnit == null || _selectedUnit.AttacksArePossible == false)
-        {            
+        {                    
             int nextIndex = (_team.ActiveUnits.IndexOf(_selectedUnit) + 1) % _team.ActiveUnits.Count;
             _selectedUnit = _team.ActiveUnits[nextIndex];
-            InvokeOnUnitSelected(_selectedUnit);
+            Debug.Log(nextIndex);
         }
         if (_selectedUnit.FindedUnits != null && _selectedUnit.FindedUnits.Count > 0)
         {   
@@ -39,15 +38,5 @@ public class AISelector : Selector
         _selectedPosition = GetPointOnSphereSurface(targetPosition, _selectedUnit.transform.position,
             _selectedUnit.Weapon.AttackRange);
         InvokeOnPositionSelected(_selectedPosition); 
-    }
-
-    public override void StopListening()
-    {
-        _team.OnTurnEnd -= ResetSelectedUnit;
-    }
-
-    private void ResetSelectedUnit()
-    {
-        _selectedUnit = null;
     }
 }

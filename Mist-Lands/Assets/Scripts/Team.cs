@@ -70,6 +70,7 @@ public class Team : FSM
             unit.EndTurn();
         }
         OnTurnEnd?.Invoke();
+        _selector.SelectedUnit = null;
     }
 
     public void SetTurner(Turner turner)

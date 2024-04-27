@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
-public class UnitMoving : UnitState, IUnitHandler
+public class UnitMoving : UnitState
 {    
     public bool HasNewUnit { get; set; }
 
@@ -19,9 +19,8 @@ public class UnitMoving : UnitState, IUnitHandler
         {
             SwitchState(Transitions[1], unit);
         }
-        if (HasNewUnit)
-        {            
-            HasNewUnit = false;
+        if (unit.Selector.SelectedUnit != unit)
+        { 
             SwitchState(Transitions[1], unit);
         }
         if (unit.CurrentMovementRange <= 0.05)
@@ -33,8 +32,7 @@ public class UnitMoving : UnitState, IUnitHandler
     public override void EnterState(Unit unit)
     {        
         unit.Obstacle.enabled = false;
-        unit.Agent.enabled = true;        
-        unit.Selector.OnNewUnitSelected += HandleNewUnit;
+        unit.Agent.enabled = true; 
         unit.LastPosition = unit.transform.position;
         unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);
     }
@@ -42,13 +40,7 @@ public class UnitMoving : UnitState, IUnitHandler
     public override void ExitState(Unit unit)
     {        
         unit.Agent.enabled = false;
-        unit.Selector.OnNewUnitSelected -= HandleNewUnit;
         unit.PathIsCompleted = true;        
-    }
-
-    public void HandleNewUnit(Unit unit)
-    {
-       HasNewUnit = true;
     }
 
     public override void UpdateState(Unit unit)

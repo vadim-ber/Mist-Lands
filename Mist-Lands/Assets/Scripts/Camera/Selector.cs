@@ -27,6 +27,7 @@ public abstract class Selector
     public Unit SelectedUnit
     {
         get => _selectedUnit;
+        set => _selectedUnit = value;
     }
     public Vector3 SelectedPosition
     {
@@ -34,7 +35,7 @@ public abstract class Selector
     }
 
     protected void InvokeOnUnitSelected(Unit unit)
-    {
+    {       
         OnNewUnitSelected?.Invoke(unit);
     }
     protected void InvokeOnPositionSelected(Vector3 position)
