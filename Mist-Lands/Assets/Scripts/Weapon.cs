@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WeaponData", menuName = "ScriptableObjects/Weapon/Create new weapon")]
+[CreateAssetMenu(fileName = "WeaponData", menuName = "ScriptableObjects/Items/Create new weapon")]
 public class Weapon : ScriptableObject
 {
     public enum CombatMode

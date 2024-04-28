@@ -1,12 +1,6 @@
-using UnityEngine;
 
 public abstract class TeamState : State
-{
-    [SerializeField] private TeamState[] _transitions;
-    public TeamState[] Transitions
-    {
-        get => _transitions;
-    }
+{   
     public abstract void EnterState(Team team);
     public abstract void ExitState(Team team);
     public abstract void UpdateState(Team team);

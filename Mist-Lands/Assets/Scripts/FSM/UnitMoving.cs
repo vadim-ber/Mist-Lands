@@ -9,21 +9,21 @@ public class UnitMoving : UnitState
         if (!unit.Agent.pathPending)
         {  
             if (unit.Agent.remainingDistance <= unit.Agent.stoppingDistance)
-            {               
-                SwitchState(Transitions[0], unit);                
+            {
+                SwitchState((UnitState)Transitions.Transitions[1], unit);                
             }
         }        
         if (unit.Team.State is TeamNotSelected)
         {
-            SwitchState(Transitions[1], unit);
+            SwitchState((UnitState)Transitions.Transitions[0], unit);
         }
         if (unit.Selector.SelectedUnit != unit)
         { 
-            SwitchState(Transitions[1], unit);
+            SwitchState((UnitState)Transitions.Transitions[0], unit);
         }
         if (unit.CurrentMovementRange <= 0.05)
         {
-            SwitchState(Transitions[0], unit);
+            SwitchState((UnitState)Transitions.Transitions[1], unit);
         }
     }
 
@@ -38,7 +38,8 @@ public class UnitMoving : UnitState
     public override void ExitState(Unit unit)
     {        
         unit.Agent.enabled = false;
-        unit.PathIsCompleted = true;        
+        unit.PathIsCompleted = true;
+        unit.Selector.HasNewSelectedPosition = false;
     }
 
     public override void UpdateState(Unit unit)

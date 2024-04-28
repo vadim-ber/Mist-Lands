@@ -6,8 +6,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
 public class Unit : FSM
 {
+    [SerializeField] private Health _health;
     [SerializeField] private Animator _animator;
-    [SerializeField] private Weapon _weapon;       
+    [SerializeField] private Weapon _weapon;
+    [SerializeField] private Armor _armor;
     [SerializeField] private UnitState _state;
     [SerializeField] private HeightModifier _heightModifier;
     [SerializeField] private float _maximumMovementDistance = 10;
@@ -55,6 +57,10 @@ public class Unit : FSM
     {
         get => _obstacle;
     }
+    public Health Health
+    {
+        get => _health;
+    }
     public Animator Animator
     {
         get => _animator;
@@ -97,6 +103,10 @@ public class Unit : FSM
     public Weapon Weapon
     {
         get => _weapon;
+    }
+    public Armor Armor
+    {
+        get => _armor;
     }
     public bool PathIsCompleted
     {

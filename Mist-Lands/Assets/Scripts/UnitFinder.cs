@@ -11,23 +11,36 @@ public class UnitFinder
         _allUnitsDictonary = allUnitsDictonary; 
     }
 
-    public Vector3 FindClosestUnitPosition(float radius, bool isFriendly)
+    public Vector3 FindClosestUnitPosition(float radius, bool isFriendly, bool needCheckActivity)
     {
         float minDistance = radius;
         Unit closestUnit = null;
+
         foreach (KeyValuePair<GameObject, Unit> entry in _allUnitsDictonary)
         {
             if ((entry.Value.Team == _unit.Team) == isFriendly)
             {
-                float dist = Vector3.Distance(entry.Value.transform.position,
-                    _unit.transform.position);
+                float dist = Vector3.Distance(entry.Value.transform.position, _unit.transform.position);
                 if (dist < minDistance)
                 {
-                    minDistance = dist;
-                    closestUnit = entry.Value;
+                    if (needCheckActivity)
+                    {
+                        var activity = entry.Value.Team.ActiveUnits.Contains(entry.Value);
+                        if (activity == true)
+                        {
+                            minDistance = dist;
+                            closestUnit = entry.Value;
+                        }
+                    }
+                    else
+                    {
+                        minDistance = dist;
+                        closestUnit = entry.Value;
+                    }
                 }
             }
         }
+
         if (closestUnit != null)
         {
             return closestUnit.transform.position;

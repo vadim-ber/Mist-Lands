@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e81b33ac4693646ad21cd62a78c20d, type: 3}
-  m_Name: UnitNotSelected
+  m_Script: {fileID: 11500000, guid: 26d1018d4b35e8242a51ee8cec788a15, type: 3}
+  m_Name: TeamTransitions
   m_EditorClassIdentifier: 
-  _transitions: {fileID: 11400000, guid: 9271902eaa3dfab4da75453744212c90, type: 2}
-  _currentStateAnimationName: Idle/Walk/Run Blend
-  _animationTrasitionTime: 0.1
-  _animationLayer: 0
+  _transitions:
+  - {fileID: 11400000, guid: 9a8979ca930735849a08e7333be63644, type: 2}
+  - {fileID: 11400000, guid: f6fa05205fc2d9b48977635f5a51d570, type: 2}

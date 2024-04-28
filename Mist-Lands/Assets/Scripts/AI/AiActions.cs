@@ -31,6 +31,6 @@ public class AiActions
     private Vector3 Convergence()
     {
         var finder = new UnitFinder(_unit, _unit.Selector.UnitList.AllUnitsDictonary);
-        return finder.FindClosestUnitPosition(_searchRadius, false);
+        return finder.FindClosestUnitPosition(_searchRadius, false, true);
     }
 }

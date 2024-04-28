@@ -42,7 +42,7 @@ public class Clicker : Selector
         {
             return;
         }
-        var unit = hit.collider.gameObject.GetComponent<Unit>();
+        UnitList.AllUnitsDictonary.TryGetValue(hit.collider.gameObject, out Unit unit);
         if (unit && unit.Team == _team)
         {
             _selectedUnit = unit;
@@ -93,7 +93,7 @@ public class Clicker : Selector
 
         UnitList.AllUnitsDictonary.TryGetValue(target, out Unit unit);
         if (unit == null || unit.Team == _selectedUnit.Team 
-            || !_selectedUnit.FindedUnits.Contains(unit))
+            || !_selectedUnit.FindedUnits.Contains(unit) || !unit.Team.ActiveUnits.Contains(unit))
         {
             return;
         }

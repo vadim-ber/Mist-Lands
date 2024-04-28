@@ -1,15 +1,11 @@
 using UnityEngine;
 
 public abstract class UnitState : State
-{
-    [SerializeField] private UnitState[] _transitions;
+{    
     [SerializeField] private string _currentStateAnimationName;
     [SerializeField] private float _animationTrasitionTime = 0f;
     [SerializeField] private int _animationLayer = 0;
-    public UnitState[] Transitions
-    {
-        get => _transitions;
-    }
+    
     public string CurrentStateAnimationName
     {
         get => _currentStateAnimationName;

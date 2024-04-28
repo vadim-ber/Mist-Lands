@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e81b33ac4693646ad21cd62a78c20d, type: 3}
-  m_Name: UnitNotSelected
+  m_Script: {fileID: 11500000, guid: 298d43a5f78b9c849b048f92fd36bee2, type: 3}
+  m_Name: ArmorLight
   m_EditorClassIdentifier: 
-  _transitions: {fileID: 11400000, guid: 9271902eaa3dfab4da75453744212c90, type: 2}
-  _currentStateAnimationName: Idle/Walk/Run Blend
-  _animationTrasitionTime: 0.1
-  _animationLayer: 0
+  _armorValue: 1

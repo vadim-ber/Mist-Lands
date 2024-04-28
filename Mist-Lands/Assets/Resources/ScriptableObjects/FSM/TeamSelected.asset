@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ede82de845f727649942dded2ddedd5f, type: 3}
   m_Name: TeamSelected
   m_EditorClassIdentifier: 
-  _transitions:
-  - {fileID: 11400000, guid: 9a8979ca930735849a08e7333be63644, type: 2}
+  _transitions: {fileID: 11400000, guid: 361d5b0a5e9320a4a9fd21a8c92d5506, type: 2}

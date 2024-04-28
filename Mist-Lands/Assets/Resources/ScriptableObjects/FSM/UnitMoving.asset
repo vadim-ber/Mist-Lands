@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b31172e32cf8244b24fdc89ab8c335, type: 3}
   m_Name: UnitMoving
   m_EditorClassIdentifier: 
-  _transitions:
-  - {fileID: 11400000, guid: 50a2b8ee5d9653a46b7c505884333bc3, type: 2}
-  - {fileID: 11400000, guid: 3c04e4c7c9c4d3547bb966ea3807fc00, type: 2}
+  _transitions: {fileID: 11400000, guid: 9271902eaa3dfab4da75453744212c90, type: 2}
   _currentStateAnimationName: Idle/Walk/Run Blend
   _animationTrasitionTime: 0.1
+  _animationLayer: 0

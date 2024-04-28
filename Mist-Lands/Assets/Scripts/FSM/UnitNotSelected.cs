@@ -4,15 +4,15 @@ using UnityEngine;
 public class UnitNotSelected : UnitState
 {  
     public override void CheckSwitchState(Unit unit)
-    {        
-        if(unit.Team.State is not TeamSelected)
-        {
-            return;
-        }
-        if(unit.Selector.SelectedUnit == unit)
+    {
+        if (unit.Health.IsFall)
         {           
-            SwitchState(Transitions[0], unit);
+            SwitchState((UnitState)Transitions.Transitions[4], unit);
         }
+        if (unit.Selector.SelectedUnit == unit && unit.Team.State is not TeamNotSelected)
+        {           
+            SwitchState((UnitState)Transitions.Transitions[1], unit);
+        }        
     }        
 
     public override void EnterState(Unit unit)
