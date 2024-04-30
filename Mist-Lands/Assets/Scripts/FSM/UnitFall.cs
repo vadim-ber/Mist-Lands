@@ -23,7 +23,7 @@ public class UnitFall : UnitState
 
     public override void UpdateState(Unit unit)
     {
-        unit.AttacksArePossible = false;
+        unit.AttacksIsPossible = false;
         CheckSwitchState(unit);
     }
 }

@@ -2544,6 +2544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealthValue: 10
+  _unit: {fileID: 8703875238563667881}
 --- !u!114 &6899161633397202745
 MonoBehaviour:
   m_ObjectHideFlags: 0

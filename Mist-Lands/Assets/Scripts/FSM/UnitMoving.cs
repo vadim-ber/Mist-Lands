@@ -10,20 +10,20 @@ public class UnitMoving : UnitState
         {  
             if (unit.Agent.remainingDistance <= unit.Agent.stoppingDistance)
             {
-                SwitchState((UnitState)Transitions.Transitions[1], unit);                
+                SwitchState((UnitState)Transitions.List[1], unit);                
             }
         }        
         if (unit.Team.State is TeamNotSelected)
         {
-            SwitchState((UnitState)Transitions.Transitions[0], unit);
+            SwitchState((UnitState)Transitions.List[0], unit);
         }
         if (unit.Selector.SelectedUnit != unit)
         { 
-            SwitchState((UnitState)Transitions.Transitions[0], unit);
+            SwitchState((UnitState)Transitions.List[0], unit);
         }
         if (unit.CurrentMovementRange <= 0.05)
         {
-            SwitchState((UnitState)Transitions.Transitions[1], unit);
+            SwitchState((UnitState)Transitions.List[1], unit);
         }
     }
 

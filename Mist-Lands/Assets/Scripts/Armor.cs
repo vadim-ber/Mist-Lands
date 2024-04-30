@@ -5,7 +5,7 @@ public class Armor : ScriptableObject
 {
     [SerializeField] private int _armorValue;
 
-    public int ArmorValue
+    public int Value
     {
         get => _armorValue;
     }

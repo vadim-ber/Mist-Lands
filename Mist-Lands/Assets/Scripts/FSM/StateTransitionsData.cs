@@ -4,10 +4,10 @@ using UnityEngine;
     menuName = "ScriptableObjects/FSM/Create StateTransitionsData")]
 public class StateTransitionsData : ScriptableObject
 {
-    [SerializeField] private State[] _transitions;
+    [SerializeField] private State[] _list;
 
-    public State[] Transitions
+    public State[] List
     {
-        get => _transitions;
+        get => _list;
     }
 }

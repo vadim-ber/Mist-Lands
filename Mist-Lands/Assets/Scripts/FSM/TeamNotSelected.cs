@@ -8,7 +8,7 @@ public class TeamNotSelected : TeamState
     {
         if (team.Turner.CurrentTeam == team)
         {
-            SwitchState((TeamState)Transitions.Transitions[1], team);
+            SwitchState((TeamState)Transitions.List[1], team);
         }
     }
 

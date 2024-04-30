@@ -13,7 +13,7 @@ public class AISelector : Selector
         {
             return;
         }
-        if (_team.ActiveUnits.All(unit => unit.AttacksArePossible == false))
+        if (_team.ActiveUnits.All(unit => unit.AttacksIsPossible == false))
         {
             _team.EndCurrentTurn();
             return;
@@ -22,7 +22,7 @@ public class AISelector : Selector
         {
             return;
         }
-        if (_selectedUnit == null || _selectedUnit.AttacksArePossible == false)
+        if (_selectedUnit == null || _selectedUnit.AttacksIsPossible == false)
         {                    
             int nextIndex = (_team.ActiveUnits.IndexOf(_selectedUnit) + 1) % _team.ActiveUnits.Count;
             _selectedUnit = _team.ActiveUnits[nextIndex];

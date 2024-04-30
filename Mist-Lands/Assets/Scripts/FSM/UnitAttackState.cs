@@ -8,16 +8,16 @@ public class UnitAttackState : UnitState
     {
         if (unit.Selector.SelectedUnit != unit)
         {            
-            SwitchState((UnitState)Transitions.Transitions[0], unit);
+            SwitchState((UnitState)Transitions.List[0], unit);
         }
         if (unit.Team.State is TeamNotSelected)
         {
-            SwitchState((UnitState)Transitions.Transitions[0], unit);
+            SwitchState((UnitState)Transitions.List[0], unit);
         }
         if (unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f 
             && _damageApplied == true)
         {
-            SwitchState((UnitState)Transitions.Transitions[1], unit);
+            SwitchState((UnitState)Transitions.List[1], unit);
         }
     }
 
@@ -29,7 +29,8 @@ public class UnitAttackState : UnitState
             unit.StartCoroutine(unit.WaitRotationTo(unit.TargetUnit.transform.position));
         }        
         unit.Obstacle.enabled = false;
-        unit.Agent.enabled = false;    
+        unit.Agent.enabled = false;
+        unit.Selector.AttackInvoked = false;
         unit.CurrentActionPoints -= unit.Weapon.AttackPrice;
         unit.Animator.StopPlayback();
         unit.Animator.Play(CurrentStateAnimationName, AnimationLayer);        
@@ -56,20 +57,7 @@ public class UnitAttackState : UnitState
             && _damageApplied == false)
         {
             _damageApplied = true;
-            unit.TargetUnit.Health.TakeDamage(CalcDamage(unit.Weapon.Damage,
-                unit.TargetUnit.Armor.ArmorValue));
-        }
-    }
-
-    private float CalcDamage(float weaponDamage, int armorValue)
-    {
-        if(weaponDamage >= armorValue * 2)
-        {
-            return weaponDamage;
-        }
-        else
-        {
-            return weaponDamage - armorValue;
+            unit.TargetUnit.Health.TakeDamage(unit.Weapon.Damage);
         }
     }
 }

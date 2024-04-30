@@ -33,7 +33,7 @@ public class Unit : FSM
     private float _currentDefenceValue;
     private Vector3 _lastPosition;
     private bool _pathIsCompleted = false;
-    private bool _attacksArePossible = true;
+    private bool _attacksIsPossible = true;
 
 
     public UnitState State
@@ -113,10 +113,10 @@ public class Unit : FSM
         get => _pathIsCompleted;
         set => _pathIsCompleted = value;
     }
-    public bool AttacksArePossible
+    public bool AttacksIsPossible
     {
-        get => _attacksArePossible;
-        set => _attacksArePossible = value;
+        get => _attacksIsPossible;
+        set => _attacksIsPossible = value;
     }
 
     public void ChangeCurrentRange(float offset)
@@ -147,7 +147,7 @@ public class Unit : FSM
         _currentMovementDistance = _maximumMovementDistance;
         _currentActionPoints = _maximumActionPoints;
         _pathIsCompleted = false;
-        _attacksArePossible = true;
+        _attacksIsPossible = true;
     }
 
     public void EndTurn()

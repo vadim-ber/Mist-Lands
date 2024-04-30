@@ -7,11 +7,15 @@ public class UnitNotSelected : UnitState
     {
         if (unit.Health.IsFall)
         {           
-            SwitchState((UnitState)Transitions.Transitions[4], unit);
+            SwitchState((UnitState)Transitions.List[4], unit);
+        }
+        if (unit.Health.ReceivedDamage && !unit.Health.IsFall)
+        {
+            SwitchState((UnitState)Transitions.List[5], unit);
         }
         if (unit.Selector.SelectedUnit == unit && unit.Team.State is not TeamNotSelected)
         {           
-            SwitchState((UnitState)Transitions.Transitions[1], unit);
+            SwitchState((UnitState)Transitions.List[1], unit);
         }        
     }        
 

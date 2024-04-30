@@ -1,29 +1,34 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxHealthValue;
-    private float _currentHealtValue;
+    [SerializeField] private Unit _unit;
+    // blood vfx prefab
+    private float _currentHealthValue;
     private bool _isFall;
-    public UnityAction OnFall;
-    public UnityAction OnTakeDamage;
+    private bool _receivedDamage;
     public bool IsFall
     {
         get => _isFall;
+    }
+    public bool ReceivedDamage
+    {
+        get => _receivedDamage;  
+        set => _receivedDamage = value;
     }
     public float MaxHealthValue
     {
         get => _maxHealthValue;
     }
-    public float CurrentHealtValue
+    public float CurrentHealthValue
     {
-        get => _currentHealtValue;
+        get => _currentHealthValue;
     }
 
     private void Start()
     {
-        _currentHealtValue = _maxHealthValue;
+        _currentHealthValue = _maxHealthValue;
     }
 
     public void TakeDamage(float damage)
@@ -32,14 +37,28 @@ public class Health : MonoBehaviour
         {
             return;
         }
-
-        _currentHealtValue -= damage;
-        OnTakeDamage?.Invoke();
-        if (_currentHealtValue <= 0)
+        float fullDamage = CalcDamage(damage, _unit.Armor.Value);
+        _currentHealthValue -= fullDamage;
+        if (fullDamage > 0)
+        {
+            _receivedDamage = true;
+        }
+        if (_currentHealthValue <= 0)
         {
             _isFall = true;
-            OnFall?.Invoke();
             print("убит");
+        }
+    }
+
+    private float CalcDamage(float weaponDamage, int armorValue)
+    {
+        if (weaponDamage >= armorValue * 2)
+        {
+            return weaponDamage;
+        }
+        else
+        {
+            return weaponDamage - armorValue;
         }
     }
 }

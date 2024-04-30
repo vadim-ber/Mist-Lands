@@ -11,15 +11,15 @@ public class WorldspaceBar : MonoBehaviour
 
     private void Start()
     {
-        _armorText.text = _unit.Armor.ArmorValue.ToString();
+        _armorText.text = _unit.Armor.Value.ToString();
     }
     void Update()
     {
-        _healthBarImage.fillAmount = _unit.Health.CurrentHealtValue / _unit.Health.MaxHealthValue;
+        _healthBarImage.fillAmount = _unit.Health.CurrentHealthValue / _unit.Health.MaxHealthValue;
         _healthBarPivot.LookAt(Camera.main.transform.position);
         if (_hideZeroHealthBar)
         {
-            _healthBarPivot.gameObject.SetActive(_unit.Health.CurrentHealtValue > 0);
+            _healthBarPivot.gameObject.SetActive(_unit.Health.CurrentHealthValue > 0);
         }
     }
 }

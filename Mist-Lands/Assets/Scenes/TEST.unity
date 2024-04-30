@@ -132,6 +132,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: aa7a30d0140da4040883778c73d04fc6, type: 2}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3588379731432192778, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: outlineColor.b
@@ -309,6 +319,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1378786929}
     m_Modifications:
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3588379731432192778, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: outlineColor.g
@@ -1600,6 +1620,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: aa7a30d0140da4040883778c73d04fc6, type: 2}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3588379731432192778, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: outlineColor.b
@@ -1879,6 +1909,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: aa7a30d0140da4040883778c73d04fc6, type: 2}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3588379731432192778, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: outlineColor.b
@@ -2116,6 +2156,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: aa7a30d0140da4040883778c73d04fc6, type: 2}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3588379731432192778, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: outlineColor.b
@@ -2269,6 +2319,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1378786929}
     m_Modifications:
+    - target: {fileID: 1617544854052528610, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1617544854052528610, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2623376819044159398, guid: 0a7bd27c8b4e99c4d831544d2a738389,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3588379731432192778, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: outlineColor.b
