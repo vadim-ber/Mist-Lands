@@ -256,6 +256,8 @@ Transform:
   - {fileID: 4446458520105876331}
   - {fileID: 6033283993269359631}
   - {fileID: 6344692653791111165}
+  - {fileID: 8201999563399848400}
+  - {fileID: 745487063856249622}
   m_Father: {fileID: 1055442682438059691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &661164945701283290
@@ -454,6 +456,7 @@ Transform:
   - {fileID: 7842177915940599430}
   - {fileID: 8559552936988025692}
   - {fileID: 7726137413049581397}
+  - {fileID: 3553421825066869008}
   m_Father: {fileID: 5467846056945634810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1407072264574745681
@@ -753,6 +756,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5416120788657876280}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1895043355236319888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8201999563399848400}
+  m_Layer: 0
+  m_Name: TwoHandedSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8201999563399848400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895043355236319888}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.45912814, y: -0.5499421, z: -0.53563213, w: 0.4470608}
+  m_LocalPosition: {x: -0.018, y: 0.08, z: 0.027}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3783971071679139019}
+  m_LocalEulerAnglesHint: {x: -10.289, y: -91.542, z: -89.732}
 --- !u!1 &1932479640794154619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,6 +1461,37 @@ Transform:
   - {fileID: 3161060271735351625}
   m_Father: {fileID: 8172447174403935412}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4889815953786544221
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3553421825066869008}
+  m_Layer: 0
+  m_Name: BowSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3553421825066869008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4889815953786544221}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.000000255648, y: -0.000065874294, z: 0.74587274, w: 0.6660886}
+  m_LocalPosition: {x: 0.322, y: -0.083, z: 0.026}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8577833065613846208}
+  m_LocalEulerAnglesHint: {x: 0.006, y: -0.005, z: 96.468}
 --- !u!1 &5002085819460680514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1890,6 +1955,7 @@ GameObject:
   - component: {fileID: 6248413721913963988}
   - component: {fileID: 6899161633397202745}
   - component: {fileID: 8703875238563667881}
+  - component: {fileID: 7410560821064018118}
   - component: {fileID: 4695698347577426604}
   - component: {fileID: 5826366172615077889}
   m_Layer: 0
@@ -2580,11 +2646,26 @@ MonoBehaviour:
   _armor: {fileID: 0}
   _state: {fileID: 11400000, guid: 3c04e4c7c9c4d3547bb966ea3807fc00, type: 2}
   _heightModifier: {fileID: 11400000, guid: 64ba4c3ed3e6d3144bd55ab67be80833, type: 2}
+  _weaponSlotsHandler: {fileID: 7410560821064018118}
   _maximumMovementDistance: 10
   _maximumActionPoints: 2
-  _attackValue: 15
-  _defenceValue: 15
   _height: 3
+--- !u!114 &7410560821064018118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330858462198720108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3f6068d254d9e40ab4f9451c8fa20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bowSlot: {fileID: 4889815953786544221}
+  _rightArmSlot: {fileID: 6890198796111947678}
+  _lefttArmSlot: {fileID: 0}
+  _twoHandedSlot: {fileID: 1895043355236319888}
 --- !u!208 &4695698347577426604
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -2655,6 +2736,37 @@ Transform:
   - {fileID: 382608953987753387}
   m_Father: {fileID: 7004270212497800665}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6890198796111947678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 745487063856249622}
+  m_Layer: 0
+  m_Name: RightArmSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &745487063856249622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6890198796111947678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5043153, y: -0.46450418, z: -0.49380076, w: 0.5348483}
+  m_LocalPosition: {x: -0, y: 0.106, z: 0.0229}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3783971071679139019}
+  m_LocalEulerAnglesHint: {x: 4.63, y: -86.56, z: -89.79}
 --- !u!1 &7101452595379917953
 GameObject:
   m_ObjectHideFlags: 0

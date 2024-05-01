@@ -32,6 +32,7 @@ public class UnitMoving : UnitState
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = true; 
         unit.LastPosition = unit.transform.position;
+        unit.Selector.HasNewSelectedPosition = false;
         unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);
     }
 

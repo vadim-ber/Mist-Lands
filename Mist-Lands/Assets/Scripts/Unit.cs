@@ -12,10 +12,9 @@ public class Unit : FSM
     [SerializeField] private Armor _armor;
     [SerializeField] private UnitState _state;
     [SerializeField] private HeightModifier _heightModifier;
+    [SerializeField] private WeaponSlotsHandler _weaponSlotsHandler;    
     [SerializeField] private float _maximumMovementDistance = 10;
     [SerializeField] private int _maximumActionPoints = 2;
-    [SerializeField] private float _attackValue = 15f;
-    [SerializeField] private float _defenceValue = 15f;
     [SerializeField] private float _height = 2f;
     private Team _team;
     private Selector _selector;    
@@ -29,8 +28,8 @@ public class Unit : FSM
     private float _currentMovementDistance;
     private int _currentActionPoints;
     private float _currrentHeightModifer;
-    private float _currentAttackValue;
-    private float _currentDefenceValue;
+    private float _currentAttackRange;
+    private float _currentDamage;
     private Vector3 _lastPosition;
     private bool _pathIsCompleted = false;
     private bool _attacksIsPossible = true;
@@ -92,13 +91,13 @@ public class Unit : FSM
     {
         get => _team;
     }
-    public float CurrentAttackValue
+    public float CurrentAttackRange
     {
-        get => _currentAttackValue;
+        get => _currentAttackRange;
     }
-    public float CurrentDefenceValue
+    public float CurrentDamage
     {
-        get => _currentDefenceValue;
+        get => _currentDamage;
     }
     public Weapon Weapon
     {
@@ -134,6 +133,8 @@ public class Unit : FSM
         _team = team;
         _selector = team.Selector;
         _unitFinder = new(this, team.Selector.UnitList.AllUnitsDictonary);
+        _findedUnits = new();
+        _weapon.Initialize(_weaponSlotsHandler);
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
         _agent = GetComponent<NavMeshAgent>();        
@@ -161,15 +162,15 @@ public class Unit : FSM
         ApplyHeightModifier();
         if(_state is not UnitNotSelected)
         {
-            _findedUnits = _unitFinder.FindUnitsInRadius(Weapon.AttackRange, false);
+            _findedUnits = _unitFinder.FindUnitsInRadius(CurrentAttackRange, false);
         }
     }
 
     private void ApplyHeightModifier()
     {
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
-        _currentAttackValue = _attackValue * _currrentHeightModifer;
-        _currentDefenceValue = _defenceValue * _currrentHeightModifer;
+        _currentAttackRange = Weapon.AttackRange * _currrentHeightModifer;
+        _currentDamage = Weapon.Damage * _currrentHeightModifer;
     }
 
     public IEnumerator WaitRotationTo(Vector3 targetPosition)

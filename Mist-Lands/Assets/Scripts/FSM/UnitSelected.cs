@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Selected", menuName = "ScriptableObjects/FSM/Create Selected state")]
@@ -7,17 +6,14 @@ public class UnitSelected : UnitState
     public override void CheckSwitchState(Unit unit)
     {
         if (unit.Selector.HasNewSelectedPosition)
-        {
-            unit.Selector.HasNewSelectedPosition = false;
+        {            
             SwitchState((UnitState)Transitions.List[2], unit);
         }        
         if (unit.Team.Mode is Team.TeamMode.AIControlled && unit.PathIsCompleted)
-        {           
-            if (unit.AttacksIsPossible && unit.FindedUnits.Count > 0
+        {
+            if (unit.AttacksIsPossible && unit.TargetUnit != null
                 && unit.CurrentActionPoints >= unit.Weapon.AttackPrice)
-            {
-                unit.TargetUnit = unit.FindedUnits.FirstOrDefault
-                    (u => unit.Team.ActiveUnits.Contains(u));
+            {                
                 SwitchState((UnitState)Transitions.List[3], unit);
             }
             else
@@ -26,7 +22,7 @@ public class UnitSelected : UnitState
             }            
         }
         if (unit.Selector.AttackInvoked && unit.CurrentActionPoints >= unit.Weapon.AttackPrice
-            && unit.TargetUnit != null)
+            && unit.TargetUnit != null && unit.Team.Mode is Team.TeamMode.PlayerControlled)
         {
             unit.Selector.AttackInvoked = false;
             SwitchState((UnitState)Transitions.List[3], unit);
@@ -42,8 +38,7 @@ public class UnitSelected : UnitState
     }
 
     public override void EnterState(Unit unit)
-    {
-        unit.TargetUnit = null;
+    {        
         unit.Obstacle.enabled = false;
         unit.Outline.enabled = true;
         unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);

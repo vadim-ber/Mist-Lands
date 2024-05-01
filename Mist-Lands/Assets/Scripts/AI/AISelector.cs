@@ -27,17 +27,19 @@ public class AISelector : Selector
             int nextIndex = (_team.ActiveUnits.IndexOf(_selectedUnit) + 1) % _team.ActiveUnits.Count;
             _selectedUnit = _team.ActiveUnits[nextIndex];
         }
-        if (_selectedUnit.FindedUnits != null && _selectedUnit.FindedUnits.Count > 0)
-        {   
-            _selectedUnit.TargetUnit = _selectedUnit.FindedUnits[0];
-            InvokeOnAttackIsPossible(_selectedUnit.FindedUnits.ToArray());
-            _attackInvoked = true;
-        }        
+
         Vector3 targetPosition = new AiActions(_selectedUnit).CalcVectorToMove();
-        
+
         _selectedPosition = GetPointOnSphereSurface(targetPosition, _selectedUnit.transform.position,
-            _selectedUnit.Weapon.AttackRange);
-        InvokeOnPositionSelected(_selectedPosition); 
+            _selectedUnit.CurrentAttackRange);
+        InvokeOnPositionSelected(_selectedPosition);
         _hasNewSelectedPosition = true;
+
+        if (_selectedUnit.FindedUnits.Count > 0)
+        {
+            _selectedUnit.TargetUnit = _selectedUnit.FindedUnits.FirstOrDefault
+                (u => u.Team.ActiveUnits.Contains(u));
+            _attackInvoked = true;
+        }
     }
 }

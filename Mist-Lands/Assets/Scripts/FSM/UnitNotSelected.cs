@@ -13,10 +13,14 @@ public class UnitNotSelected : UnitState
         {
             SwitchState((UnitState)Transitions.List[5], unit);
         }
+        if(unit.Health.BlockPossible)
+        {
+            SwitchState((UnitState)Transitions.List[6], unit);
+        }
         if (unit.Selector.SelectedUnit == unit && unit.Team.State is not TeamNotSelected)
         {           
             SwitchState((UnitState)Transitions.List[1], unit);
-        }        
+        } 
     }        
 
     public override void EnterState(Unit unit)

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions: {fileID: 11400000, guid: 9271902eaa3dfab4da75453744212c90, type: 2}
   _currentStateAnimationName: Idle/Walk/Run Blend
-  _animationTrasitionTime: 0.1
+  _animationTrasitionTime: 0.01
   _animationLayer: 0

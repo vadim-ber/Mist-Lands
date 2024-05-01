@@ -37,7 +37,7 @@ public class UnitAttackState : UnitState
     }
 
     public override void ExitState(Unit unit)
-    {        
+    {
         
     }
 
@@ -45,19 +45,22 @@ public class UnitAttackState : UnitState
     {
         ApplyDamage(unit);
         CheckSwitchState(unit);
-    }    
+    }
 
     private void ApplyDamage(Unit unit)
     {
-        if(_damageApplied == true)
+        if (_damageApplied)
         {
             return;
         }
-        if(unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f
-            && _damageApplied == false)
+
+        float fullDamage = unit.TargetUnit.Health.CalcDamage(unit.CurrentDamage, unit.TargetUnit.Armor.Value);
+        bool isDamageTime = unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f;
+
+        if (fullDamage > 0 && isDamageTime || fullDamage <= 0)
         {
             _damageApplied = true;
-            unit.TargetUnit.Health.TakeDamage(unit.Weapon.Damage);
+            unit.TargetUnit.Health.TakeDamage(fullDamage);
         }
     }
 }

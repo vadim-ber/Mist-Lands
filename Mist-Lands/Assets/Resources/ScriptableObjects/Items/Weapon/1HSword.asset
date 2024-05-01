@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fd7be33c6a51747be7d56fb41788fe, type: 3}
+  m_Name: 1HSword
+  m_EditorClassIdentifier: 
+  _combatMode: 0
+  _weaponSlot: 1
+  _animatorController: {fileID: 9100000, guid: 0e2c6e64d06dac04aaf874da73f07e53, type: 2}
+  _prefab: {fileID: 1037715513984232, guid: 259746fbc59909b4eb14377c46a80363, type: 3}
+  _attackRange: 3
+  _damage: 8
+  _attackPrice: 2

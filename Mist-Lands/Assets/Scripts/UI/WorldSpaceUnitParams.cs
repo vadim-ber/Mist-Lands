@@ -10,8 +10,8 @@ public class WorldSpaceUnitParams : MonoBehaviour
 
     void Update()
     {
-        _attackText.text = (Mathf.Round(_unit.CurrentAttackValue * 10f) / 10f).ToString();
-        _defenceText.text = (Mathf.Round(_unit.CurrentDefenceValue * 10f) / 10f).ToString();
+        _attackText.text = (Mathf.Round(_unit.CurrentAttackRange * 10f) / 10f).ToString();
+        _defenceText.text = (Mathf.Round(_unit.CurrentDamage * 10f) / 10f).ToString();
         _paramsBarPivot.LookAt(Camera.main.transform.position);
     }
 }
