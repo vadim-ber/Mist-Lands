@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _combatMode: 0
   _weaponSlot: 3
-  _animatorController: {fileID: 9100000, guid: 0e2c6e64d06dac04aaf874da73f07e53, type: 2}
+  _animatorController: {fileID: 9100000, guid: 5ab4148d7268b3545bda42aeb2c24631, type: 2}
   _prefab: {fileID: 1776472905282870, guid: 1fa34df54f1414448b502a85dfa4a95c, type: 3}
   _attackRange: 3.5
   _damage: 10

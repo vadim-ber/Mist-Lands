@@ -21,10 +21,10 @@ public class Unit : FSM
     private NavMeshObstacle _obstacle;
     private NavMeshAgent _agent;
     private Outline _outline;
-    private Coroutine _coroutine;
     private UnitFinder _unitFinder;
     private List<Unit> _findedUnits;
     private Unit _targetUnit;
+    private Unit _lastAttacker;
     private float _currentMovementDistance;
     private int _currentActionPoints;
     private float _currrentHeightModifer;
@@ -72,7 +72,12 @@ public class Unit : FSM
     {
         get => _targetUnit;
         set => _targetUnit = value;
-    }    
+    }
+    public Unit LastAttacker
+    {
+        get => _lastAttacker;
+        set => _lastAttacker = value;
+    }
     public float CurrentMovementRange
     {
         get => _currentMovementDistance;
@@ -171,25 +176,5 @@ public class Unit : FSM
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
         _currentAttackRange = Weapon.AttackRange * _currrentHeightModifer;
         _currentDamage = Weapon.Damage * _currrentHeightModifer;
-    }
-
-    public IEnumerator WaitRotationTo(Vector3 targetPosition)
-    {        
-        if (_coroutine != null)
-        {
-            StopAllCoroutines();
-        }
-        yield return _coroutine = StartCoroutine(RotateTo(targetPosition));
-    }
-
-    private IEnumerator RotateTo(Vector3 targetPosition)
-    {        
-        Quaternion toRotation = Quaternion.LookRotation(targetPosition - transform.position);
-        while (Quaternion.Angle(transform.rotation, toRotation) > 0.01f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation,
-                _agent.speed * Time.deltaTime);
-            yield return null;
-        }
     }
 }

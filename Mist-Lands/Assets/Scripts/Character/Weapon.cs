@@ -44,7 +44,6 @@ public class Weapon : ScriptableObject
         _weapon.transform.position = Vector3.zero;
         _weapon.transform.rotation = Quaternion.identity;
         _weapon.transform.SetParent(slot, false);
-        Debug.Log(_weaponSlot + " " + _weapon);
     }
 
     public void Clear()

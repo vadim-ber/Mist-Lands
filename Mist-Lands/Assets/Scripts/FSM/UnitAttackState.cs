@@ -4,8 +4,14 @@ using UnityEngine;
 public class UnitAttackState : UnitState
 {
     private bool _damageApplied;
+    private bool _rotationComplete;
+    private Vector3 _rotationTarget;
     public override void CheckSwitchState(Unit unit)
     {
+        if(!_rotationComplete)
+        {
+            return;
+        }
         if (unit.Selector.SelectedUnit != unit)
         {            
             SwitchState((UnitState)Transitions.List[0], unit);
@@ -24,10 +30,8 @@ public class UnitAttackState : UnitState
     public override void EnterState(Unit unit)
     {
         _damageApplied = false; 
-        if(unit.TargetUnit != null)
-        {
-            unit.StartCoroutine(unit.WaitRotationTo(unit.TargetUnit.transform.position));
-        }        
+        _rotationComplete = false;
+        _rotationTarget = unit.TargetUnit.transform.position;
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = false;
         unit.Selector.AttackInvoked = false;
@@ -38,11 +42,12 @@ public class UnitAttackState : UnitState
 
     public override void ExitState(Unit unit)
     {
-        
+        _rotationTarget = Vector3.zero;
     }
 
     public override void UpdateState(Unit unit)
     {
+        RotateTo(unit, _rotationTarget);
         ApplyDamage(unit);
         CheckSwitchState(unit);
     }
@@ -61,6 +66,21 @@ public class UnitAttackState : UnitState
         {
             _damageApplied = true;
             unit.TargetUnit.Health.TakeDamage(fullDamage);
+        }
+        unit.TargetUnit.LastAttacker = unit;
+    }
+
+    private void RotateTo(Unit unit, Vector3 targetPosition)
+    {
+        Quaternion toRotation = Quaternion.LookRotation(targetPosition - unit.transform.position);
+        if (Quaternion.Angle(unit.transform.rotation, toRotation) > 0.1f)
+        {
+            unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, toRotation,
+                unit.Agent.speed * Time.deltaTime);
+        }
+        else
+        {
+            _rotationComplete = true;
         }
     }
 }
