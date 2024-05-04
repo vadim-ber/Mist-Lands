@@ -12,8 +12,8 @@ public class AiActions
     {
         return _unit.Weapon.Combat switch
         {
-            Weapon.CombatMode.Meele => HandleMeeleCombat(),
-            Weapon.CombatMode.Ranged => HandleRangedCombat(),
+            WeaponData.CombatMode.Meele => HandleMeeleCombat(),
+            WeaponData.CombatMode.Ranged => HandleRangedCombat(),
             _ => Vector3.zero,
         };
     }

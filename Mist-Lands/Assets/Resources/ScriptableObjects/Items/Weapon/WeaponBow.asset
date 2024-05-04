@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50fd7be33c6a51747be7d56fb41788fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 86907867e34b6fd49905c60f3a5baee4, type: 3}
   m_Name: WeaponBow
   m_EditorClassIdentifier: 
   _combatMode: 1
+  _weaponSlot: 0
   _animatorController: {fileID: 9100000, guid: 39cfd71f36001b34487d816e09b08a0f, type: 2}
   _prefab: {fileID: 1717406733745140, guid: d03c4353fda446d4f8df56d422578d64, type: 3}
   _attackRange: 10

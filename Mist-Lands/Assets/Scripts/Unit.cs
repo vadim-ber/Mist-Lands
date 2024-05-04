@@ -8,11 +8,11 @@ public class Unit : FSM
 {
     [SerializeField] private Health _health;
     [SerializeField] private Animator _animator;
-    [SerializeField] private Weapon _weapon;
+    [SerializeField] private WeaponData _weapon;
     [SerializeField] private Armor _armor;
     [SerializeField] private UnitState _state;
     [SerializeField] private HeightModifier _heightModifier;
-    [SerializeField] private WeaponSlotsHandler _weaponSlotsHandler;    
+    [SerializeField] private CharacterEquipmentSlots _characterEquipmentSlots;    
     [SerializeField] private float _maximumMovementDistance = 10;
     [SerializeField] private int _maximumActionPoints = 2;
     [SerializeField] private float _height = 2f;
@@ -104,7 +104,7 @@ public class Unit : FSM
     {
         get => _currentDamage;
     }
-    public Weapon Weapon
+    public WeaponData Weapon
     {
         get => _weapon;
     }
@@ -139,7 +139,7 @@ public class Unit : FSM
         _selector = team.Selector;
         _unitFinder = new(this, team.Selector.UnitList.AllUnitsDictonary);
         _findedUnits = new();
-        _weapon.Initialize(_weaponSlotsHandler);
+        _weapon.CreateInstance(_characterEquipmentSlots);
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
         _agent = GetComponent<NavMeshAgent>();        

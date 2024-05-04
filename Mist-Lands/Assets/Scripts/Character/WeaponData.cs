@@ -1,11 +1,10 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "ScriptableObjects/Items/Create new weapon")]
-public class Weapon : ScriptableObject
+public class WeaponData : ScriptableObject
 {
     public enum CombatMode { Meele, Ranged };
     public enum WeaponSlot { Bow, RightArm, LeftArm, TwoHanded };
-
 
     [SerializeField] private CombatMode _combatMode;
     [SerializeField] private WeaponSlot _weaponSlot;
@@ -22,27 +21,26 @@ public class Weapon : ScriptableObject
     public float Damage => _damage;
     public int AttackPrice => _attackPrice;
 
-    public void Initialize(WeaponSlotsHandler weaponSlotsHandler)
+    public void CreateInstance(CharacterEquipmentSlots weaponSlotsHandler)
     {
         Transform slot = null;
         switch (_weaponSlot)
         {
             case WeaponSlot.Bow:
-                slot = weaponSlotsHandler.BowSlot.transform;
+                slot = weaponSlotsHandler.BowHandSlot;
                 break;
             case WeaponSlot.RightArm:
-                slot = weaponSlotsHandler.RightArmSlot.transform;
+                slot = weaponSlotsHandler.OneHArmSlot;
                 break;
             case WeaponSlot.LeftArm:
-                slot = weaponSlotsHandler.LeftArmSlot.transform;
+                slot = weaponSlotsHandler.ShieldArmSlot.transform;
                 break;
             case WeaponSlot.TwoHanded:
-                slot = weaponSlotsHandler.TwoHandedSlot.transform;
+                slot = weaponSlotsHandler.TwoHArmSlot.transform;
                 break;
         }
         _weapon = Instantiate(_prefab);        
-        _weapon.transform.position = Vector3.zero;
-        _weapon.transform.rotation = Quaternion.identity;
+        _weapon.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         _weapon.transform.SetParent(slot, false);
     }
 

@@ -457,6 +457,7 @@ Transform:
   - {fileID: 8559552936988025692}
   - {fileID: 7726137413049581397}
   - {fileID: 3553421825066869008}
+  - {fileID: 7582627898843008012}
   m_Father: {fileID: 5467846056945634810}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1407072264574745681
@@ -1812,6 +1813,37 @@ Transform:
   - {fileID: 3961133807736472089}
   m_Father: {fileID: 6344692653791111165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5931071961746163977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7582627898843008012}
+  m_Layer: 0
+  m_Name: ShieldSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7582627898843008012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5931071961746163977}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.000000255648, y: -0.000065874294, z: 0.74587274, w: 0.6660886}
+  m_LocalPosition: {x: 0.322, y: -0.083, z: 0.026}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8577833065613846208}
+  m_LocalEulerAnglesHint: {x: 0.006, y: -0.005, z: 96.468}
 --- !u!1 &6036791201548038335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,8 +1986,8 @@ GameObject:
   - component: {fileID: 5405421053087010334}
   - component: {fileID: 6248413721913963988}
   - component: {fileID: 6899161633397202745}
+  - component: {fileID: 5465515602003466799}
   - component: {fileID: 8703875238563667881}
-  - component: {fileID: 7410560821064018118}
   - component: {fileID: 4695698347577426604}
   - component: {fileID: 5826366172615077889}
   m_Layer: 0
@@ -2628,6 +2660,28 @@ MonoBehaviour:
   _healthBarImage: {fileID: 8088931601973380815}
   _healthBarPivot: {fileID: 1574236870175715533}
   _hideZeroHealthBar: 1
+--- !u!114 &5465515602003466799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6330858462198720108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a61ea14a28d1440bd6a71751a760b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bowHandSlot: {fileID: 3553421825066869008}
+  _bowBackSlot: {fileID: 0}
+  _quiverSlot: {fileID: 0}
+  _arrowHandSlot: {fileID: 0}
+  _oneHArmSlot: {fileID: 745487063856249622}
+  _oneHBeltSlot: {fileID: 0}
+  _twoHArmSlot: {fileID: 8201999563399848400}
+  _twoHBackSlot: {fileID: 0}
+  _shieldArmSlot: {fileID: 7582627898843008012}
+  _shieldBackSlot: {fileID: 0}
 --- !u!114 &8703875238563667881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2646,26 +2700,10 @@ MonoBehaviour:
   _armor: {fileID: 0}
   _state: {fileID: 11400000, guid: 3c04e4c7c9c4d3547bb966ea3807fc00, type: 2}
   _heightModifier: {fileID: 11400000, guid: 64ba4c3ed3e6d3144bd55ab67be80833, type: 2}
-  _weaponSlotsHandler: {fileID: 7410560821064018118}
+  _characterEquipmentSlots: {fileID: 5465515602003466799}
   _maximumMovementDistance: 10
   _maximumActionPoints: 2
   _height: 3
---- !u!114 &7410560821064018118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6330858462198720108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3f6068d254d9e40ab4f9451c8fa20e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bowSlot: {fileID: 4889815953786544221}
-  _rightArmSlot: {fileID: 6890198796111947678}
-  _lefttArmSlot: {fileID: 0}
-  _twoHandedSlot: {fileID: 1895043355236319888}
 --- !u!208 &4695698347577426604
 NavMeshObstacle:
   m_ObjectHideFlags: 0
