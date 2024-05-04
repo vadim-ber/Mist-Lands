@@ -12,7 +12,7 @@ public class UnitSelected : UnitState
         if (unit.Team.Mode is Team.TeamMode.AIControlled && unit.PathIsCompleted)
         {
             if (unit.AttacksIsPossible && unit.TargetUnit != null
-                && unit.CurrentActionPoints >= unit.Weapon.AttackPrice)
+                && unit.CurrentActionPoints >= unit.Weapon.WeaponData.AttackPrice)
             {                
                 SwitchState((UnitState)Transitions.List[3], unit);
             }
@@ -21,7 +21,7 @@ public class UnitSelected : UnitState
                 unit.AttacksIsPossible = false;
             }            
         }
-        if (unit.Selector.AttackInvoked && unit.CurrentActionPoints >= unit.Weapon.AttackPrice
+        if (unit.Selector.AttackInvoked && unit.CurrentActionPoints >= unit.Weapon.WeaponData.AttackPrice
             && unit.TargetUnit != null && unit.Team.Mode is Team.TeamMode.PlayerControlled)
         {           
             SwitchState((UnitState)Transitions.List[3], unit);

@@ -11,7 +11,7 @@ public class WorldspaceBar : MonoBehaviour
 
     private void Start()
     {
-        _armorText.text = _unit.Armor.Value.ToString();
+        _armorText.text = _unit.ArmorData.Value.ToString();
     }
     void Update()
     {

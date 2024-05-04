@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,8 +7,8 @@ public class Unit : FSM
 {
     [SerializeField] private Health _health;
     [SerializeField] private Animator _animator;
-    [SerializeField] private WeaponData _weapon;
-    [SerializeField] private Armor _armor;
+    [SerializeField] private WeaponData _weaponData;
+    [SerializeField] private ArmorData _armorData;
     [SerializeField] private UnitState _state;
     [SerializeField] private HeightModifier _heightModifier;
     [SerializeField] private CharacterEquipmentSlots _characterEquipmentSlots;    
@@ -25,6 +24,7 @@ public class Unit : FSM
     private List<Unit> _findedUnits;
     private Unit _targetUnit;
     private Unit _lastAttacker;
+    private Weapon _weapon;
     private float _currentMovementDistance;
     private int _currentActionPoints;
     private float _currrentHeightModifer;
@@ -34,39 +34,10 @@ public class Unit : FSM
     private bool _pathIsCompleted = false;
     private bool _attacksIsPossible = true;
 
-
     public UnitState State
     { 
         get => _state; 
         set => _state = value; 
-    }
-    public Selector Selector
-    {
-        get => _selector;
-    }
-    public Outline Outline
-    {
-        get => _outline;
-    }
-    public NavMeshAgent Agent
-    {
-        get => _agent;
-    }
-    public NavMeshObstacle Obstacle
-    {
-        get => _obstacle;
-    }
-    public Health Health
-    {
-        get => _health;
-    }
-    public Animator Animator
-    {
-        get => _animator;
-    }
-    public List<Unit> FindedUnits
-    {
-        get => _findedUnits;
     }
     public Unit TargetUnit
     {
@@ -78,10 +49,6 @@ public class Unit : FSM
         get => _lastAttacker;
         set => _lastAttacker = value;
     }
-    public float CurrentMovementRange
-    {
-        get => _currentMovementDistance;
-    }
     public int CurrentActionPoints
     {
         get => _currentActionPoints;
@@ -91,26 +58,6 @@ public class Unit : FSM
     {
         get => _lastPosition;
         set => _lastPosition = value;
-    }
-    public Team Team
-    {
-        get => _team;
-    }
-    public float CurrentAttackRange
-    {
-        get => _currentAttackRange;
-    }
-    public float CurrentDamage
-    {
-        get => _currentDamage;
-    }
-    public WeaponData Weapon
-    {
-        get => _weapon;
-    }
-    public Armor Armor
-    {
-        get => _armor;
     }
     public bool PathIsCompleted
     {
@@ -122,6 +69,19 @@ public class Unit : FSM
         get => _attacksIsPossible;
         set => _attacksIsPossible = value;
     }
+    public Selector Selector => _selector;    
+    public Outline Outline => _outline;
+    public NavMeshAgent Agent => _agent;
+    public NavMeshObstacle Obstacle => _obstacle;
+    public Health Health => _health;
+    public Animator Animator => _animator;
+    public List<Unit> FindedUnits => _findedUnits;    
+    public float CurrentMovementRange => _currentMovementDistance;    
+    public Team Team => _team;
+    public float CurrentAttackRange => _currentAttackRange;
+    public float CurrentDamage => _currentDamage;
+    public Weapon Weapon => _weapon;
+    public ArmorData ArmorData => _armorData;    
 
     public void ChangeCurrentRange(float offset)
     {
@@ -134,12 +94,12 @@ public class Unit : FSM
 
     public void Initialize(Team team)
     {        
-        _animator.runtimeAnimatorController = _weapon.AnimatorController;
+        _animator.runtimeAnimatorController = _weaponData.AnimatorController;
         _team = team;
         _selector = team.Selector;
         _unitFinder = new(this, team.Selector.UnitList.AllUnitsDictonary);
         _findedUnits = new();
-        _weapon.CreateInstance(_characterEquipmentSlots);
+        _weapon = new(_weaponData, _characterEquipmentSlots);
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
         _agent = GetComponent<NavMeshAgent>();        
@@ -174,7 +134,7 @@ public class Unit : FSM
     private void ApplyHeightModifier()
     {
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
-        _currentAttackRange = Weapon.AttackRange * _currrentHeightModifer;
-        _currentDamage = Weapon.Damage * _currrentHeightModifer;
+        _currentAttackRange = _weapon.WeaponData.AttackRange * _currrentHeightModifer;
+        _currentDamage = _weapon.WeaponData.Damage * _currrentHeightModifer;
     }
 }

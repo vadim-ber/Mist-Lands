@@ -98,11 +98,11 @@ public class Clicker : Selector
             return;
         }
 
-        if (_selectedUnit.Weapon.Combat == WeaponData.CombatMode.Meele)
+        if (_selectedUnit.Weapon.WeaponData.Combat == WeaponData.CombatMode.Meele)
         {
             Cursor.SetCursor(_cursorData.MeeleAttackCursor, Vector2.zero, CursorMode.Auto);
         }
-        else if (_selectedUnit.Weapon.Combat == WeaponData.CombatMode.Ranged)
+        else if (_selectedUnit.Weapon.WeaponData.Combat == WeaponData.CombatMode.Ranged)
         {
             Cursor.SetCursor(_cursorData.RangedAttackCursor, Vector2.zero, CursorMode.Auto);
         }

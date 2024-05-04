@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ArmorData", menuName = "ScriptableObjects/Items/Create new armor")]
-public class Armor : ScriptableObject
+public class ArmorData : ScriptableObject
 {
     [SerializeField] private int _armorValue;
 

@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterEquipmentSlots : MonoBehaviour
 {
     [Header("Bow")]
     [SerializeField] private Transform _bowHandSlot;
-    [SerializeField] private Transform _bowBackSlot;
     [SerializeField] private Transform _quiverSlot;
     [SerializeField] private Transform _arrowHandSlot;
+    [SerializeField] private Transform _bowBackSlot; 
     [Header("1H Weapon")]
     [SerializeField] private Transform _oneHArmSlot;
     [SerializeField] private Transform _oneHBeltSlot;
@@ -17,44 +18,32 @@ public class CharacterEquipmentSlots : MonoBehaviour
     [SerializeField] private Transform _shieldArmSlot;
     [SerializeField] private Transform _shieldBackSlot;
 
-    public Transform BowHandSlot
+    public List<Transform> GetBowSlots()
     {
-        get => _bowHandSlot;
+        return new List<Transform>
+        {
+            _bowHandSlot, _quiverSlot, _arrowHandSlot, _bowBackSlot
+        };
     }
-    public Transform BowBackSlot
+    public List<Transform> Get1HWeaponSlots()
     {
-        get => _bowBackSlot;
+        return new List<Transform>
+        {
+            _oneHArmSlot, _oneHBeltSlot
+        };
     }
-    public Transform QuiverSlot
+    public List<Transform> Get2HWeaponSlots()
     {
-        get => _quiverSlot;
+        return new List<Transform>
+        {
+            _twoHArmSlot, _twoHBackSlot
+        };
     }
-    public Transform ArrowInHandSLot
+    public List<Transform> GetShieldSlots()
     {
-        get => _arrowHandSlot;
-    }
-    public Transform OneHArmSlot
-    {
-        get => _oneHArmSlot;
-    }
-    public Transform OneHBeltSlot
-    {
-        get => _oneHBeltSlot;
-    }
-    public Transform TwoHArmSlot
-    {
-        get => _twoHArmSlot;
-    }
-    public Transform TwoHBackSlot
-    {
-        get => _twoHBackSlot;
-    }
-    public Transform ShieldArmSlot
-    {
-        get => _shieldArmSlot;
-    }
-    public Transform ShieldBackSlot
-    {
-        get => _shieldBackSlot;
+        return new List<Transform>
+        {
+            _shieldArmSlot, _shieldBackSlot
+        };
     }
 }

@@ -35,7 +35,7 @@ public class UnitAttackState : UnitState
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = false;
         unit.Selector.AttackInvoked = false;
-        unit.CurrentActionPoints -= unit.Weapon.AttackPrice;
+        unit.CurrentActionPoints -= unit.Weapon.WeaponData.AttackPrice;
         unit.Animator.StopPlayback();
         unit.Animator.Play(CurrentStateAnimationName, AnimationLayer);        
     }
@@ -59,7 +59,7 @@ public class UnitAttackState : UnitState
             return;
         }
 
-        float fullDamage = unit.TargetUnit.Health.CalcDamage(unit.CurrentDamage, unit.TargetUnit.Armor.Value);
+        float fullDamage = unit.TargetUnit.Health.CalcDamage(unit.CurrentDamage, unit.TargetUnit.ArmorData.Value);
         bool isDamageTime = unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f;
 
         if (fullDamage > 0 && isDamageTime || fullDamage <= 0)
