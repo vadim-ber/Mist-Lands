@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,7 +27,24 @@ public class Clicker : Selector
             return;
         }
         HandleLeftClick();
-        HandleRightClick();        
+        HandleRightClick();
+        SwapTest();
+    }
+
+    private void SwapTest()
+    {
+       if(_selectedUnit == null)
+        {
+            return;
+        }
+       if(_selectedUnit.Team.Mode is not Team.TeamMode.PlayerControlled)
+        {
+            return;
+        }
+       if(Keyboard.current.eKey.isPressed)
+        {
+            _selectedUnit.SwapWeapon();
+        }
     }
 
     private void HandleLeftClick()
@@ -98,11 +116,11 @@ public class Clicker : Selector
             return;
         }
 
-        if (_selectedUnit.Weapon.WeaponData.Combat == WeaponData.CombatMode.Meele)
+        if (_selectedUnit.WeaponInHands.WeaponData.Combat == WeaponData.CombatMode.Meele)
         {
             Cursor.SetCursor(_cursorData.MeeleAttackCursor, Vector2.zero, CursorMode.Auto);
         }
-        else if (_selectedUnit.Weapon.WeaponData.Combat == WeaponData.CombatMode.Ranged)
+        else if (_selectedUnit.WeaponInHands.WeaponData.Combat == WeaponData.CombatMode.Ranged)
         {
             Cursor.SetCursor(_cursorData.RangedAttackCursor, Vector2.zero, CursorMode.Auto);
         }

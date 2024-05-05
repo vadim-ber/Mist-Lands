@@ -7,7 +7,8 @@ public class WeaponData : ScriptableObject
     public enum CombatMode { Meele, Ranged };
     public enum WeaponSlot { Bow, RightArm, LeftArm, TwoHanded };
 
-    [SerializeField] private List<GameObject> _prefabs;
+    [SerializeField] private GameObject _prefab;
+    [SerializeField] private List<GameObject> _additionalPrefabs;
     [SerializeField] private CombatMode _combatMode;
     [SerializeField] private WeaponSlot _weaponSlot;
     [SerializeField] private RuntimeAnimatorController _animatorController;    
@@ -19,7 +20,8 @@ public class WeaponData : ScriptableObject
     public CombatMode Combat => _combatMode;
     public WeaponSlot WSlot => _weaponSlot;
     public RuntimeAnimatorController AnimatorController => _animatorController;
-    public List<GameObject> Prefabs => _prefabs;    
+    public GameObject Prefab => _prefab;    
+    public List<GameObject> AdditionalPrefabs => _additionalPrefabs;
     public float Damage => _damage;
     public int AttackPrice => _attackPrice;
 }

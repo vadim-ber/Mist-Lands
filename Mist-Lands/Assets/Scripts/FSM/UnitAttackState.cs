@@ -35,7 +35,7 @@ public class UnitAttackState : UnitState
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = false;
         unit.Selector.AttackInvoked = false;
-        unit.CurrentActionPoints -= unit.Weapon.WeaponData.AttackPrice;
+        unit.CurrentActionPoints -= unit.WeaponInHands.WeaponData.AttackPrice;
         unit.Animator.StopPlayback();
         unit.Animator.Play(CurrentStateAnimationName, AnimationLayer);        
     }

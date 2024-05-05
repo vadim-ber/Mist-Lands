@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86907867e34b6fd49905c60f3a5baee4, type: 3}
   m_Name: WeaponBow
   m_EditorClassIdentifier: 
-  _prefabs:
-  - {fileID: 1717406733745140, guid: d03c4353fda446d4f8df56d422578d64, type: 3}
+  _prefab: {fileID: 1717406733745140, guid: d03c4353fda446d4f8df56d422578d64, type: 3}
+  _additionalPrefabs:
   - {fileID: 8838088511601279191, guid: 9edc74b6142f74245a3a47be7f85074e, type: 3}
   _combatMode: 1
   _weaponSlot: 0

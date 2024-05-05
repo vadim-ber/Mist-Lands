@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86907867e34b6fd49905c60f3a5baee4, type: 3}
   m_Name: WeaponUnarmed
   m_EditorClassIdentifier: 
-  _prefabs:
-  - {fileID: 6971377818778622569, guid: 8173d2961a3f56a49bf741e20b6d6e95, type: 3}
+  _prefab: {fileID: 6971377818778622569, guid: 8173d2961a3f56a49bf741e20b6d6e95, type: 3}
   _combatMode: 0
   _weaponSlot: 3
   _animatorController: {fileID: 9100000, guid: 1e5689500a443b142aba1205531bb41c, type: 2}

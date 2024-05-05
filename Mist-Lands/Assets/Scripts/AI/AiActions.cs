@@ -10,7 +10,7 @@ public class AiActions
     }
     public Vector3 CalcVectorToMove()
     {
-        return _unit.Weapon.WeaponData.Combat switch
+        return _unit.WeaponInHands.WeaponData.Combat switch
         {
             WeaponData.CombatMode.Meele => HandleMeeleCombat(),
             WeaponData.CombatMode.Ranged => HandleRangedCombat(),

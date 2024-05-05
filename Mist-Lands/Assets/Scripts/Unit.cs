@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
 public class Unit : FSM
 {
+    [SerializeField] private RigBuilder _rigBuilder;
     [SerializeField] private Health _health;
     [SerializeField] private Animator _animator;
-    [SerializeField] private WeaponData _weaponData;
+    [SerializeField] private List<WeaponData> _weaponDataList;
     [SerializeField] private ArmorData _armorData;
     [SerializeField] private UnitState _state;
     [SerializeField] private HeightModifier _heightModifier;
@@ -24,7 +27,8 @@ public class Unit : FSM
     private List<Unit> _findedUnits;
     private Unit _targetUnit;
     private Unit _lastAttacker;
-    private Weapon _weapon;
+    private Weapon _weaponInHands;
+    private List<Weapon> _equippiedWeapons;
     private float _currentMovementDistance;
     private int _currentActionPoints;
     private float _currrentHeightModifer;
@@ -80,7 +84,7 @@ public class Unit : FSM
     public Team Team => _team;
     public float CurrentAttackRange => _currentAttackRange;
     public float CurrentDamage => _currentDamage;
-    public Weapon Weapon => _weapon;
+    public Weapon WeaponInHands => _weaponInHands;
     public ArmorData ArmorData => _armorData;    
 
     public void ChangeCurrentRange(float offset)
@@ -93,13 +97,20 @@ public class Unit : FSM
     }
 
     public void Initialize(Team team)
-    {        
-        _animator.runtimeAnimatorController = _weaponData.AnimatorController;
+    {
+        _equippiedWeapons = new()
+        {
+            new(_weaponDataList[0], _characterEquipmentSlots),
+            new(_weaponDataList[1], _characterEquipmentSlots)
+        };
+        _equippiedWeapons[0].Unsheath();
+        _weaponInHands = _equippiedWeapons[0];
+        _animator.runtimeAnimatorController = _weaponInHands.WeaponData.AnimatorController;
         _team = team;
         _selector = team.Selector;
         _unitFinder = new(this, team.Selector.UnitList.AllUnitsDictonary);
-        _findedUnits = new();
-        _weapon = new(_weaponData, _characterEquipmentSlots);
+        _findedUnits = new();        
+        _rigBuilder.Build();
         _outline = GetComponent<Outline>();
         _obstacle = GetComponent<NavMeshObstacle>();
         _agent = GetComponent<NavMeshAgent>();        
@@ -114,6 +125,14 @@ public class Unit : FSM
         _currentActionPoints = _maximumActionPoints;
         _pathIsCompleted = false;
         _attacksIsPossible = true;
+    }
+
+    public void SwapWeapon()
+    {
+        _weaponInHands.Sheath();
+        _weaponInHands = _equippiedWeapons.FirstOrDefault(obj => obj != _weaponInHands);
+        _animator.runtimeAnimatorController = _weaponInHands.WeaponData.AnimatorController;
+        _weaponInHands.Unsheath();
     }
 
     public void EndTurn()
@@ -134,7 +153,7 @@ public class Unit : FSM
     private void ApplyHeightModifier()
     {
         _currrentHeightModifer = _heightModifier.CalcualteModifier(transform.position.y, _height);
-        _currentAttackRange = _weapon.WeaponData.AttackRange * _currrentHeightModifer;
-        _currentDamage = _weapon.WeaponData.Damage * _currrentHeightModifer;
-    }
+        _currentAttackRange = _weaponInHands.WeaponData.AttackRange * _currrentHeightModifer;
+        _currentDamage = _weaponInHands.WeaponData.Damage * _currrentHeightModifer;
+    }    
 }

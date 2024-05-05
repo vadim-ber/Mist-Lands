@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86907867e34b6fd49905c60f3a5baee4, type: 3}
   m_Name: 2HAxe
   m_EditorClassIdentifier: 
-  _prefabs:
-  - {fileID: 1776472905282870, guid: 1fa34df54f1414448b502a85dfa4a95c, type: 3}
+  _prefab: {fileID: 1776472905282870, guid: 1fa34df54f1414448b502a85dfa4a95c, type: 3}
   _combatMode: 0
   _weaponSlot: 3
   _animatorController: {fileID: 9100000, guid: 5ab4148d7268b3545bda42aeb2c24631, type: 2}
