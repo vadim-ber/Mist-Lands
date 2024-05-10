@@ -2843,13 +2843,13 @@ PrefabInstance:
         type: 3}
       propertyPath: '_weaponDataList.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: da21a3234cd63724291654ae72e224ad,
+      objectReference: {fileID: 11400000, guid: f037bf3696233934d812b558b34708f0,
         type: 2}
     - target: {fileID: 8703875238563667881, guid: 0a7bd27c8b4e99c4d831544d2a738389,
         type: 3}
       propertyPath: '_weaponDataList.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: f037bf3696233934d812b558b34708f0,
+      objectReference: {fileID: 11400000, guid: df64101c3780d6141ac988d9c8f7b1d1,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

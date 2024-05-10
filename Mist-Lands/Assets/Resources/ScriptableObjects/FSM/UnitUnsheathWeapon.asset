@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed3862e582c3df04b899608a8334d1c2, type: 3}
-  m_Name: UnitSelected
+  m_Script: {fileID: 11500000, guid: 684e5a45c97f8504e87a43d795c27515, type: 3}
+  m_Name: UnitUnsheathWeapon
   m_EditorClassIdentifier: 
   _transitions: {fileID: 11400000, guid: 9271902eaa3dfab4da75453744212c90, type: 2}
-  _currentStateAnimationName: Idle/Walk/Run Blend
-  _animationTrasitionTime: 0.05
-  _animationLayer: 0
+  _currentStateAnimationName: Unsheath
+  _animationTrasitionTime: 0.1
+  _animationLayer: 1

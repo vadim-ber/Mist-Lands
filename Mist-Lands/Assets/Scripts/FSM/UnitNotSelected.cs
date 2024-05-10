@@ -35,6 +35,7 @@ public class UnitNotSelected : UnitState
     public override void ExitState(Unit unit)
     {        
         unit.Obstacle.enabled = false;
+        unit.Animator.StopPlayback();
     }  
 
     public override void UpdateState(Unit unit)

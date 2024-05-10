@@ -21,6 +21,7 @@ public class UnitBlockState : UnitState
     public override void ExitState(Unit unit)
     {
         unit.Animator.SetFloat("Context", 0f);
+        unit.Animator.StopPlayback();
     }
 
     public override void UpdateState(Unit unit)

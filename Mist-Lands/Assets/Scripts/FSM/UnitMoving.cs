@@ -41,6 +41,7 @@ public class UnitMoving : UnitState
         unit.Agent.enabled = false;
         unit.PathIsCompleted = true;
         unit.Selector.HasNewSelectedPosition = false;
+        unit.Animator.StopPlayback();
     }
 
     public override void UpdateState(Unit unit)

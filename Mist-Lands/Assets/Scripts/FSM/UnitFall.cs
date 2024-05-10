@@ -19,6 +19,7 @@ public class UnitFall : UnitState
     public override void ExitState(Unit unit)
     {
         unit.Team.AllUnits.Add(unit);
+        unit.Animator.StopPlayback();
     }
 
     public override void UpdateState(Unit unit)

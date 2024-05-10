@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 1HSword
   m_EditorClassIdentifier: 
   _prefab: {fileID: 1037715513984232, guid: 259746fbc59909b4eb14377c46a80363, type: 3}
+  _additionalPrefabs: []
   _combatMode: 0
   _weaponSlot: 1
-  _animatorController: {fileID: 9100000, guid: 0e2c6e64d06dac04aaf874da73f07e53, type: 2}
+  _animatorController: {fileID: 9100000, guid: 3c59f8eab63bee74d9b69220097052a9, type: 2}
   _attackRange: 3
   _damage: 8
   _attackPrice: 2

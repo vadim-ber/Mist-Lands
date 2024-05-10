@@ -28,7 +28,7 @@ public class UnitGetHitState : UnitState
 
     public override void ExitState(Unit unit)
     {
-        
+        unit.Animator.StopPlayback();
     }
 
     public override void UpdateState(Unit unit)

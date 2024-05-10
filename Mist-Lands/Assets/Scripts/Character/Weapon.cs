@@ -9,6 +9,7 @@ public class Weapon
     private List<Transform> _slots;
     private List<Transform> _additionalSlots;
     private MultiParentConstraint _parentConstraint;
+    private bool _isSheath;
     public Weapon(WeaponData weaponData, CharacterEquipmentSlots equipmentSlots)
     {
         _weaponData = weaponData;
@@ -23,24 +24,31 @@ public class Weapon
 
         _parentConstraint.data.constrainedObject = _models[0].transform;
         var sourceObjects = _parentConstraint.data.sourceObjects;
-        sourceObjects.Insert(0, new WeightedTransform(_slots[0], 0f));
-        sourceObjects.Insert(1, new WeightedTransform(_slots[1], 1f));        
+        sourceObjects.Add(new WeightedTransform(_slots[0], 0f));
+        sourceObjects.Add(new WeightedTransform(_slots[1], 1f));
+        _isSheath = true;
         _parentConstraint.data.sourceObjects = sourceObjects;
     }
     public WeaponData WeaponData => _weaponData;
+    public bool IsSheath => _isSheath;
 
     public void Unsheath()
     {
-        var source = _parentConstraint.data.sourceObjects;
-        source.SetWeight(0, 1f);
-        source.SetWeight(1, 0f);
-        _parentConstraint.data.sourceObjects = source;
+        SetWeights(1, 0);
+        _isSheath = false;
     }
+
     public void Sheath()
     {
+        SetWeights(0, 1);
+        _isSheath = true;
+    }
+
+    private void SetWeights(float weight1, float weight2)
+    {        
         var source = _parentConstraint.data.sourceObjects;
-        _parentConstraint.data.sourceObjects.SetWeight(0, 0f);
-        _parentConstraint.data.sourceObjects.SetWeight(1, 1f);
+        source.SetWeight(0, weight1);
+        source.SetWeight(1, weight2);
         _parentConstraint.data.sourceObjects = source;
     }
 

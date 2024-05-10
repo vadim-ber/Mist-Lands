@@ -26,6 +26,10 @@ public class UnitSelected : UnitState
         {           
             SwitchState((UnitState)Transitions.List[3], unit);
         }
+        if (unit.Selector.WeaponSwapInvoked)
+        {
+            SwitchState((UnitState)Transitions.List[7], unit);
+        }
         if (unit.Selector.SelectedUnit != unit)
         {
             SwitchState((UnitState)Transitions.List[0], unit);
@@ -40,13 +44,12 @@ public class UnitSelected : UnitState
     {        
         unit.Obstacle.enabled = false;
         unit.Outline.enabled = true;
-        unit.Animator.CrossFade(CurrentStateAnimationName, AnimationTrasitionTime);
         unit.Animator.SetFloat("Speed", 0f);
     }
 
     public override void ExitState(Unit unit)
-    {        
-        
+    {
+        unit.Animator.StopPlayback();
     }
 
     public override void UpdateState(Unit unit)

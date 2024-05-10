@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,9 +40,9 @@ public class Clicker : Selector
         {
             return;
         }
-       if(Keyboard.current.eKey.isPressed)
+       if(Keyboard.current.eKey.wasPressedThisFrame)
         {
-            _selectedUnit.SwapWeapon();
+           _weaponSwapInvoked = true;
         }
     }
 
@@ -67,7 +66,8 @@ public class Clicker : Selector
             InvokeOnUnitSelected(_selectedUnit);
             return;
         }
-        if (_selectedUnit == null)
+        if (_selectedUnit == null || _selectedUnit.State is not UnitSelected
+            || _selectedUnit.Team.Mode is not Team.TeamMode.PlayerControlled)
         {
             return;
         }

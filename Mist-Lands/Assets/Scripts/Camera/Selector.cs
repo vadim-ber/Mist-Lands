@@ -10,6 +10,7 @@ public abstract class Selector
     protected UnitList _unitList;
     protected bool _hasNewSelectedPosition;
     protected bool _attackInvoked;
+    protected bool _weaponSwapInvoked;
     public event Action<Unit> OnNewUnitSelected;
     public event Action<Vector3> OnNewPositionSelected;
     public event Action<Unit[]> OnAttackIsPossible;
@@ -44,6 +45,11 @@ public abstract class Selector
     {
         get => _attackInvoked;
         set => _attackInvoked = value;
+    }
+    public bool WeaponSwapInvoked
+    {
+        get => _weaponSwapInvoked;
+        set => _weaponSwapInvoked = value;
     }
 
     protected void InvokeOnUnitSelected(Unit unit)

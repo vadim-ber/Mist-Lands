@@ -43,6 +43,7 @@ public class UnitAttackState : UnitState
     public override void ExitState(Unit unit)
     {
         _rotationTarget = Vector3.zero;
+        unit.Animator.StopPlayback();
     }
 
     public override void UpdateState(Unit unit)
@@ -73,7 +74,7 @@ public class UnitAttackState : UnitState
     private void RotateTo(Unit unit, Vector3 targetPosition)
     {
         Quaternion toRotation = Quaternion.LookRotation(targetPosition - unit.transform.position);
-        if (Quaternion.Angle(unit.transform.rotation, toRotation) > 0.1f)
+        if (Quaternion.Angle(unit.transform.rotation, toRotation) > 0.2f)
         {
             unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, toRotation,
                 unit.Agent.speed * Time.deltaTime);

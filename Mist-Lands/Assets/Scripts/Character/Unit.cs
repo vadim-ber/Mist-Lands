@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
@@ -73,6 +74,11 @@ public class Unit : FSM
         get => _attacksIsPossible;
         set => _attacksIsPossible = value;
     }
+    public Weapon WeaponInHands
+    {
+        get => _weaponInHands;
+        set => _weaponInHands = value;
+    }
     public Selector Selector => _selector;    
     public Outline Outline => _outline;
     public NavMeshAgent Agent => _agent;
@@ -83,9 +89,9 @@ public class Unit : FSM
     public float CurrentMovementRange => _currentMovementDistance;    
     public Team Team => _team;
     public float CurrentAttackRange => _currentAttackRange;
-    public float CurrentDamage => _currentDamage;
-    public Weapon WeaponInHands => _weaponInHands;
+    public float CurrentDamage => _currentDamage;    
     public ArmorData ArmorData => _armorData;    
+    public List<Weapon> EquippiedWeapons => _equippiedWeapons;
 
     public void ChangeCurrentRange(float offset)
     {
@@ -103,8 +109,8 @@ public class Unit : FSM
             new(_weaponDataList[0], _characterEquipmentSlots),
             new(_weaponDataList[1], _characterEquipmentSlots)
         };
-        _equippiedWeapons[0].Unsheath();
         _weaponInHands = _equippiedWeapons[0];
+        _weaponInHands.Unsheath();
         _animator.runtimeAnimatorController = _weaponInHands.WeaponData.AnimatorController;
         _team = team;
         _selector = team.Selector;
@@ -125,14 +131,6 @@ public class Unit : FSM
         _currentActionPoints = _maximumActionPoints;
         _pathIsCompleted = false;
         _attacksIsPossible = true;
-    }
-
-    public void SwapWeapon()
-    {
-        _weaponInHands.Sheath();
-        _weaponInHands = _equippiedWeapons.FirstOrDefault(obj => obj != _weaponInHands);
-        _animator.runtimeAnimatorController = _weaponInHands.WeaponData.AnimatorController;
-        _weaponInHands.Unsheath();
     }
 
     public void EndTurn()
