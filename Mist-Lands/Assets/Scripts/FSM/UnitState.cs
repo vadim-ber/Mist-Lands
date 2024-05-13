@@ -23,7 +23,7 @@ public abstract class UnitState : State
     public abstract void UpdateState(Unit unit);
     public abstract void CheckSwitchState(Unit unit);
 
-    protected virtual void RandimizeAnimation(Animator animator, string paramName,
+    protected virtual void RandomizeAnimation(Animator animator, string paramName,
         float min, float max, int animationLayer)
     {
         animator.SetFloat(paramName, Random.Range(min, max));

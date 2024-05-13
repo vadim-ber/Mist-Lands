@@ -14,7 +14,7 @@ public class UnitBlockState : UnitState
     public override void EnterState(Unit unit)
     {
         unit.Animator.StopPlayback();
-        RandimizeAnimation(unit.Animator, "Context", 0, 2, 0);
+        RandomizeAnimation(unit.Animator, "Context", 0, 2, 0);
         unit.Health.BlockPossible = false;
     }
 

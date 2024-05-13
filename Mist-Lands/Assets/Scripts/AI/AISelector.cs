@@ -64,6 +64,7 @@ public class AISelector : Selector
         {
             _selectedUnit.TargetUnit = _selectedUnit.LastAttacker;
             _attackInvoked = true;
+            return;
         }
         if (_selectedUnit.FindedUnits.Count > 0)
         {
