@@ -43,6 +43,7 @@ public class Clicker : Selector
        if(Keyboard.current.eKey.wasPressedThisFrame)
         {
            _weaponSwapInvoked = true;
+            Debug.Log("Weapon Swap");
         }
     }
 

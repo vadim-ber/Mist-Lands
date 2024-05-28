@@ -9,10 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/IntroMenu.unity
     guid: fcc9a92e228cfec4eb0b127b2d1046c5
   - enabled: 1
-    path: Assets/Scenes/1.unity
-    guid: a56203ff1eff2bc4ba73fa50baea2f7f
-  - enabled: 0
-    path: Assets/Scenes/TEST.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Forest.unity
+    guid: 314ae12aeeb455847ba97ac42f1aba0f
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

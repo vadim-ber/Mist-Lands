@@ -59,17 +59,15 @@ public class AISelector : Selector
         {
             return;
         }
-        if (_selectedUnit.LastAttacker != null && _selectedUnit.LastAttacker.State is not UnitFall
-            && _selectedUnit.FindedUnits.Contains(_selectedUnit.LastAttacker))
-        {
-            _selectedUnit.TargetUnit = _selectedUnit.LastAttacker;
-            _attackInvoked = true;
-            return;
-        }
         if (_selectedUnit.FindedUnits.Count > 0)
         {
-            _selectedUnit.TargetUnit = _selectedUnit.FindedUnits.FirstOrDefault
-                (u => u.Team.ActiveUnits.Contains(u));
+            //_selectedUnit.TargetUnit = _selectedUnit.FindedUnits.FirstOrDefault
+            //    (u => u.Team.ActiveUnits.Contains(u));
+            _selectedUnit.TargetUnit = _selectedUnit.FindedUnits
+            .Where(unit => unit.State is not UnitFall)
+            .OrderBy(unit => UnitRaitingCalc.Get(unit))
+            .FirstOrDefault();
+
             _attackInvoked = true;
         }
     }
