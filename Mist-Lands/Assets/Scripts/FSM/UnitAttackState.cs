@@ -5,7 +5,11 @@ public class UnitAttackState : UnitState
 {
     private bool _damageApplied;
     private bool _rotationComplete;
+    private bool _isDamageTime;
+    private float _fullDamage;
+
     private Vector3 _rotationTarget;
+    private Quaternion _toRotation;
     public override void CheckSwitchState(Unit unit)
     {
         if(!_rotationComplete)
@@ -32,6 +36,9 @@ public class UnitAttackState : UnitState
         _damageApplied = false; 
         _rotationComplete = false;
         _rotationTarget = unit.TargetUnit.transform.position;
+        _toRotation = unit.transform.rotation;
+        _isDamageTime = false;
+        _fullDamage = 0;
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = false;
         unit.Selector.AttackInvoked = false;
@@ -60,23 +67,23 @@ public class UnitAttackState : UnitState
             return;
         }
 
-        float fullDamage = unit.TargetUnit.Health.CalcDamage(unit.CurrentDamage, unit.TargetUnit.ArmorData.Value);
-        bool isDamageTime = unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f;
+        _fullDamage = unit.TargetUnit.Health.CalcDamage(unit.CurrentDamage, unit.TargetUnit.ArmorData.Value);
+        _isDamageTime = unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f;
 
-        if (fullDamage > 0 && isDamageTime || fullDamage <= 0)
+        if (_fullDamage > 0 && _isDamageTime || _fullDamage <= 0)
         {
             _damageApplied = true;
-            unit.TargetUnit.Health.TakeDamage(fullDamage);
+            unit.TargetUnit.Health.TakeDamage(_fullDamage);
         }
         unit.TargetUnit.LastAttacker = unit;
     }
 
     private void RotateTo(Unit unit, Vector3 targetPosition)
     {
-        Quaternion toRotation = Quaternion.LookRotation(targetPosition - unit.transform.position);
-        if (Quaternion.Angle(unit.transform.rotation, toRotation) > 0.2f)
+        _toRotation = Quaternion.LookRotation(targetPosition - unit.transform.position);
+        if (Quaternion.Angle(unit.transform.rotation, _toRotation) > 0.2f)
         {
-            unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, toRotation,
+            unit.transform.rotation = Quaternion.Lerp(unit.transform.rotation, _toRotation,
                 unit.Agent.speed * Time.deltaTime);
         }
         else

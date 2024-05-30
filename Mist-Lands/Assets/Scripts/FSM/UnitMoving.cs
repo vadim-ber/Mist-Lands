@@ -3,7 +3,11 @@ using UnityEngine.AI;
 
 [CreateAssetMenu(fileName = "Moving", menuName = "ScriptableObjects/FSM/Create moving state")]
 public class UnitMoving : UnitState
-{  
+{
+    private NavMeshPath _path;
+    private float _pathLength;
+    private Vector3 _clampedPosition;
+    private float _offset;
     public override void CheckSwitchState(Unit unit)
     {        
         if (!unit.Agent.pathPending)
@@ -28,7 +32,9 @@ public class UnitMoving : UnitState
     }
 
     public override void EnterState(Unit unit)
-    {        
+    {
+        _path = new();
+        _pathLength = 0;
         unit.Obstacle.enabled = false;
         unit.Agent.enabled = true; 
         unit.LastPosition = unit.transform.position;
@@ -55,14 +61,13 @@ public class UnitMoving : UnitState
     private void Move(Unit unit, Vector3 newPosition)
     {
         unit.Agent.SetDestination(newPosition);
-        NavMeshPath path = new();
-        unit.Agent.CalculatePath(newPosition, path);
-        float pathLength = path.CalculatePathLength();
+        unit.Agent.CalculatePath(newPosition, _path);
+        _pathLength = _path.CalculatePathLength();
 
-        if (pathLength > unit.CurrentMovementRange)
+        if (_pathLength > unit.CurrentMovementRange)
         {
-            Vector3 clampedPosition = path.GetPointAtDistance(unit.CurrentMovementRange);
-            unit.Agent.SetDestination(clampedPosition);
+            _clampedPosition = _path.GetPointAtDistance(unit.CurrentMovementRange);
+            unit.Agent.SetDestination(_clampedPosition);
         }
         else
         {
@@ -72,8 +77,8 @@ public class UnitMoving : UnitState
 
     private void UpdateMovementDistance(Unit unit)
     {
-        float offset = Vector3.Distance(unit.transform.position, unit.LastPosition);
+        _offset = Vector3.Distance(unit.transform.position, unit.LastPosition);
         unit.LastPosition = unit.transform.position;
-        unit.ChangeCurrentRange(-offset);
+        unit.ChangeCurrentRange(-_offset);
     }
 }

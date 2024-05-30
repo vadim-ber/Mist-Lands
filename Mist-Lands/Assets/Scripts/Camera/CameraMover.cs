@@ -2,40 +2,39 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CameraMover : MonoBehaviour
-{
+{    
     [SerializeField] private float _speed = 100.0f;
-    [SerializeField][Range(0, 1)] private float _movemenMultipler = 0.1f;
-    private Vector3 _direction;
+    [SerializeField][Range(0, 1)] private float _multipler = 0.1f;
+    private InputActionAsset _actionAsset;
+    private InputAction _cameraMove;
     private Vector3 _targetPosition;
+    private Vector3 _convertedDirection;
+    private Vector2 _inputDirection;    
 
     private void Start()
     {
-        _targetPosition = transform.position;
+        _actionAsset = Resources.Load<InputActionAsset>("Input/Input");
+        _cameraMove = _actionAsset.FindAction("CameraMove");
+        _cameraMove.Enable();
+        _convertedDirection = Vector3.zero;
     }
 
-    void Update()
+    private void Update()
     {
-        _direction = Vector3.zero;
-        var keyboard = Keyboard.current;
-        if(keyboard == null)
-        {
-            return;
-        }
-        _direction = new Vector3();
-        if (keyboard.wKey.isPressed)
-            _direction += Vector3.forward;
-        if (keyboard.sKey.isPressed)
-            _direction -= Vector3.forward;
-        if (keyboard.aKey.isPressed)
-            _direction -= Vector3.right;
-        if (keyboard.dKey.isPressed)
-            _direction += Vector3.right;
-
-        _targetPosition = transform.position + _direction * _speed * Time.deltaTime;
+        MoveCamera();
     }
 
-    void FixedUpdate()
+    private void OnDisable()
     {
-        transform.position = Vector3.Lerp(transform.position, _targetPosition, _movemenMultipler);
+        _cameraMove.Disable();
+    }
+
+    private void MoveCamera()
+    {
+        _inputDirection = _cameraMove.ReadValue<Vector2>();
+        _convertedDirection.x = _inputDirection.x;
+        _convertedDirection.z = _inputDirection.y;
+        _targetPosition = transform.position + _speed * Time.deltaTime * _convertedDirection;
+        transform.position = Vector3.Slerp(transform.position, _targetPosition, _multipler);
     }
 }

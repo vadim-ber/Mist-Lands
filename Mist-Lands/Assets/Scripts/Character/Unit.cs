@@ -6,17 +6,25 @@ using UnityEngine.Animations.Rigging;
 [RequireComponent(typeof(Outline), typeof(NavMeshAgent), typeof(NavMeshObstacle))]
 public class Unit : FSM
 {
-    [SerializeField] private RigBuilder _rigBuilder;
+    [Header("Characteristics")]
     [SerializeField] private Health _health;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private List<WeaponData> _weaponDataList;
-    [SerializeField] private ArmorData _armorData;
-    [SerializeField] private UnitState _state;
-    [SerializeField] private HeightModifier _heightModifier;
-    [SerializeField] private CharacterEquipmentSlots _characterEquipmentSlots;    
     [SerializeField] private float _maximumMovementDistance = 10;
     [SerializeField] private int _maximumActionPoints = 2;
     [SerializeField] private float _height = 2f;
+
+    [Header("Equipment")]
+    [SerializeField] private CharacterEquipmentSlots _characterEquipmentSlots;
+    [SerializeField] private List<WeaponData> _weaponDataList;
+    [SerializeField] private ArmorData _armorData;
+
+    [Header("Animation")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private RigBuilder _rigBuilder;
+
+    [Header("Other")]
+    [SerializeField] private UnitState _state;
+    [SerializeField] private HeightModifier _heightModifier;
+
     private Team _team;
     private Selector _selector;    
     private NavMeshObstacle _obstacle;

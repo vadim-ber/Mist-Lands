@@ -61,14 +61,12 @@ public class AISelector : Selector
         }
         if (_selectedUnit.FindedUnits.Count > 0)
         {
-            //_selectedUnit.TargetUnit = _selectedUnit.FindedUnits.FirstOrDefault
-            //    (u => u.Team.ActiveUnits.Contains(u));
             _selectedUnit.TargetUnit = _selectedUnit.FindedUnits
             .Where(unit => unit.State is not UnitFall)
             .OrderBy(unit => UnitRaitingCalc.Get(unit))
             .FirstOrDefault();
 
-            _attackInvoked = true;
+            _attackIsPossible = true;
         }
     }
 }

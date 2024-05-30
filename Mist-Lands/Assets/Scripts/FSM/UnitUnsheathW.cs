@@ -4,6 +4,7 @@ using UnityEngine;
 public class UnitUnsheathW : UnitState
 {
     private bool _isComplete;
+    private bool _isUnsheathTime;
     public override void CheckSwitchState(Unit unit)
     {
         if (unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f)
@@ -14,7 +15,8 @@ public class UnitUnsheathW : UnitState
 
     public override void EnterState(Unit unit)
     {
-        _isComplete = false; 
+        _isComplete = false;
+        _isUnsheathTime = false;
         unit.Animator.StopPlayback();
         unit.Animator.Play(CurrentStateAnimationName, AnimationLayer);
     }
@@ -37,9 +39,9 @@ public class UnitUnsheathW : UnitState
             return;
         }
 
-        bool isUnsheathTime = unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.10f;
+        _isUnsheathTime = unit.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.10f;
 
-        if (isUnsheathTime)
+        if (_isUnsheathTime)
         {
             _isComplete = true;
             unit.WeaponInHands.Unsheath();

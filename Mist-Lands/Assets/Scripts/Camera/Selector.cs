@@ -7,13 +7,15 @@ public abstract class Selector
     protected Unit _selectedUnit;
     protected Team _team;
     protected Vector3 _selectedPosition;
+    protected Vector3 _direction;
     protected UnitList _unitList;
     protected bool _hasNewSelectedPosition;
-    protected bool _attackInvoked;
+    protected bool _attackIsPossible;
     protected bool _weaponSwapInvoked;
+    protected int _walkableMask;
     public event Action<Unit> OnNewUnitSelected;
     public event Action<Vector3> OnNewPositionSelected;
-    public event Action<Unit[]> OnAttackIsPossible;
+    public event Action<Unit> OnAttackIsPossible;
 
     public UnitList UnitList
     {
@@ -25,8 +27,6 @@ public abstract class Selector
         _unitList = UnityEngine.Object.FindFirstObjectByType<UnitList>();
         _team = team;
     }
-    public abstract void UpdateSelector(Transform transform);
-    public virtual void StopListening() { }
     public Unit SelectedUnit
     {
         get => _selectedUnit;
@@ -43,15 +43,17 @@ public abstract class Selector
     }
     public bool AttackInvoked
     {
-        get => _attackInvoked;
-        set => _attackInvoked = value;
+        get => _attackIsPossible;
+        set => _attackIsPossible = value;
     }
     public bool WeaponSwapInvoked
     {
         get => _weaponSwapInvoked;
         set => _weaponSwapInvoked = value;
     }
-
+    public abstract void UpdateSelector(Transform transform);
+    public virtual void StopListening() { }
+    protected virtual void SwapWeapon() { }
     protected void InvokeOnUnitSelected(Unit unit)
     {       
         OnNewUnitSelected?.Invoke(unit);
@@ -60,16 +62,16 @@ public abstract class Selector
     {       
         OnNewPositionSelected?.Invoke(position);
     }
-    protected void InvokeOnAttackIsPossible(Unit[] units)
+    protected void InvokeOnAttackIsPossible(Unit unit)
     {
-        OnAttackIsPossible?.Invoke(units);
+        OnAttackIsPossible?.Invoke(unit);
     }
 
     protected Vector3 GetNearestWalkablePosition(Vector3 target)
     {
-        int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+        _walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
         if (NavMesh.SamplePosition(target, out NavMeshHit navMeshHit,
-            _selectedUnit.Agent.radius * 2, walkableMask))
+            _selectedUnit.Agent.radius * 2, _walkableMask))
         {
             return navMeshHit.position;
         }
@@ -81,8 +83,8 @@ public abstract class Selector
 
     protected Vector3 GetPointOnSphereSurface(Vector3 center, Vector3 target, float radius)
     {
-        Vector3 direction = target - center;
-        direction.Normalize(); 
-        return center + direction * (radius - 1); 
+        _direction = target - center;
+        _direction.Normalize(); 
+        return center + _direction * (radius - 1); 
     }    
 }
